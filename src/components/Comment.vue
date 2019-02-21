@@ -54,6 +54,18 @@
             v-bind:euser="replys.user[''+reply.entry_id]"
             v-bind:comment="comment"
           ></Reply>
+          <div v-if="fold && replys.total>3 && pageSize==3">
+            共{{replys.total}}条回复，
+            <span v-on:click="pageSize=10; handleCurrentChange(1)">点击查看</span>
+          </div>
+          <div class="block" v-if="pageSize>3">
+            <el-pagination
+              layout="prev, pager, next"
+              :total="parseInt(replys.total)"
+              :page-size="10"
+              @current-change="handleCurrentChange"
+            ></el-pagination>
+          </div>
         </ul>
       </div>
     </div>
@@ -86,10 +98,12 @@ export default {
   name: "Comment",
   data() {
     return {
-      commentId: Number,
-      replys: Array,
-      dialogVisible: false,
-      reportRadio: Number
+      replys: Array, //回复数据
+      dialogVisible: false, //对话框打开状态
+      reportRadio: Number, //举报选项
+      fold: Boolean, //折叠状态
+      page: 1,
+      pageSize: 3
     };
   },
   props: {
@@ -100,13 +114,7 @@ export default {
     Reply
   },
   mounted() {
-    this.$http
-      .get("/comment/r?page=1&pageSize=3&id=" + this.comment.comment_id)
-      .then(
-        response => (
-          (this.replys = response.data), window.console.log(response)
-        )
-      );
+    this.replyList();
   },
   methods: {
     reply: function() {},
@@ -137,6 +145,28 @@ export default {
           window.console.log("error");
           this.dialogVisible = false;
         }); /**/
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.pageSize = 10;
+      window.console.log(`当前页: ${val}`);
+      this.replyList();
+    },
+    replyList: function() {
+      this.$http
+        .get(
+          "/comment/r?page=" +
+            this.page +
+            "&pageSize=" +
+            this.pageSize +
+            "&id=" +
+            this.comment.comment_id
+        )
+        .then(
+          response => (
+            (this.replys = response.data), window.console.log(response)
+          )
+        );
     }
   }
 };
