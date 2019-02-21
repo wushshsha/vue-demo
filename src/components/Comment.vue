@@ -35,7 +35,10 @@
                   <i class="fa fa-ellipsis-h comment-operate"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item v-on:click.native="dialogVisible = true" v-if="this.$identify != comment.user_id">Report</el-dropdown-item>
+                  <el-dropdown-item
+                    v-on:click.native="dialogVisible = true"
+                    v-if="this.$identify != comment.user_id"
+                  >Report</el-dropdown-item>
                   <el-dropdown-item v-on:click.native="del" v-else>Delete</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -112,11 +115,11 @@ export default {
       let data = new FormData();
       data.append("id", this.comment.comment_id);
 
-      this.$http
-        .post("/comment/delete", data)
-        .then(response => window.console.log(response));
-
-      this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
+      this.$http.post("/comment/delete", data).then(response => {
+        window.console.log(response);
+        if (response.data.success)
+          this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
+      });
     },
     report: function() {
       window.console.log("report");
@@ -133,7 +136,7 @@ export default {
         .catch(() => {
           window.console.log("error");
           this.dialogVisible = false;
-        });/**/ 
+        }); /**/
     }
   }
 };
