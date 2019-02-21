@@ -26,9 +26,11 @@ Date.prototype.Format = function(fmt)
   return fmt;   
 } ;
 
+axios.defaults.baseURL = 'https://html5zilla.com';
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
+Vue.prototype.$identify = window.identify;
 Vue.use(ElementUI);
 Vue.prototype.$date = function(obj)
 {
@@ -40,4 +42,4 @@ Vue.prototype.$date = function(obj)
 };
 new Vue({
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

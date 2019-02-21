@@ -1,39 +1,79 @@
 <template>
-  <li class="list-group-item py-5" v-bind:data-key="comment.comment_id">
-    <div class="media">
+  <li
+    class="list-group-item py-5"
+    v-bind:id="comment.comment_id"
+    v-if="comment.status == 1 || (comment.status != 1 && replys.reply && replys.reply.length > 0)"
+  >
+    <div class="media commentMedia">
       <div
         class="media-object avatar avatar-md mr-4"
-        v-bind:style="'background-image: url(//online2.html5zilla.com/'+comment.user.profile.avatar+')'"
+        v-bind:style="'background-image: url(//online2.html5zilla.com/'+user.profile.avatar+')'"
       ></div>
       <div class="media-body">
         <div>
-          <a :href="'/user/book/'+comment.user_id">{{comment.user.username}}</a>
+          <a :href="'/user/book/'+comment.user_id">{{user.username}}</a>
         </div>
-        <div style="margin-bottom: -15px;" v-html="comment.content">
+        <div style="margin-bottom: -15px;">
+          <div v-if="comment.status == 1" v-html="comment.content"></div>
+          <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
         </div>
         <div>
-          <small class="text-muted">{{new Date(parseInt(comment.created_at)).Format("yyyy-MM-dd HH:mm:ss")}}</small>
+          <small class="text-muted">{{ Date(parseInt(comment.created_at))}}</small>
           <span class="mx-2">
-            <i class="fa fa-thumbs-o-up comment-like" ></i>
+            <i class="fa fa-thumbs-o-up comment-like"></i>
             <span class="likeCount"></span>
           </span>
           <span class="mx-2">
-            <i class="fa fa-thumbs-o-down comment-unlike" data-key="224"></i>
+            <i class="fa fa-thumbs-o-down comment-unlike"></i>
             <span class="unlikeCount"></span>
           </span>
-          <span class="comment-reply btn btn-white btn-sm" data-key="224" data-user="54">Comment</span>
-          <div class="float-right mr-5 dropdown">
-            <i class="fa fa-ellipsis-h comment-operate" data-toggle="dropdown"></i>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow hoverContainer-item">
-              <span class="dropdown-item d-flex commentReport" data-key="224">Report</span>
-            </div>
+          <span class="comment-reply btn btn-white btn-sm">Comment</span>
+          <div class="float-right mr-5" v-if="comment.status == 1">
+            <el-col :span="12">
+              <el-dropdown trigger="click">
+                <span class="el-dropdown-link">
+                  <i class="fa fa-ellipsis-h comment-operate"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-on:click.native="dialogVisible = true" v-if="this.$identify != comment.user_id">Report</el-dropdown-item>
+                  <el-dropdown-item v-on:click.native="del" v-else>Delete</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </el-col>
           </div>
         </div>
         <ul class="list-group replyLayout card-list-group comment-reply-list">
-          <Reply></Reply>
+          <Reply
+            v-for="(reply,key,index) in replys.reply"
+            v-bind:key="index"
+            v-bind:reply="reply"
+            v-bind:user="replys.user[''+reply.user_id]"
+            v-bind:euser="replys.user[''+reply.entry_id]"
+            v-bind:comment="comment"
+          ></Reply>
         </ul>
       </div>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      :modal-append-to-body="false"
+      width="30%"
+      v-if="dialogVisible"
+    >
+      <div>
+        <el-radio v-model="reportRadio" label="Sexual Content">Sexual Content</el-radio>
+        <el-radio
+          v-model="reportRadio"
+          label="Violent And Repulsive Content"
+        >Violent And Repulsive Content</el-radio>
+        <el-radio v-model="reportRadio" label="Spam Or Misleading">Spam Or Misleading</el-radio>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="report">确 定</el-button>
+      </span>
+    </el-dialog>
   </li>
 </template>
 
@@ -42,20 +82,71 @@ import Reply from "./Reply.vue";
 export default {
   name: "Comment",
   data() {
-      return {
-          commentId: Number
-      };
+    return {
+      commentId: Number,
+      replys: Array,
+      dialogVisible: false,
+      reportRadio: Number
+    };
   },
   props: {
-    comment: Object
+    comment: Object,
+    user: Object
   },
   components: {
     Reply
   },
-  created:function(){
-      window.console.log(this.comment);
-  }
+  mounted() {
+    this.$http
+      .get("/comment/r?page=1&pageSize=3&id=" + this.comment.comment_id)
+      .then(
+        response => (
+          (this.replys = response.data), window.console.log(response)
+        )
+      );
+  },
+  methods: {
+    reply: function() {},
+    del: function() {
+      window.console.log("delete");
+      let data = new FormData();
+      data.append("id", this.comment.comment_id);
 
+      this.$http
+        .post("/comment/delete", data)
+        .then(response => window.console.log(response));
+
+      this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
+    },
+    report: function() {
+      window.console.log("report");
+      let data = new FormData();
+      data.append("BookCommentReportForm[comment_id]", this.comment.comment_id);
+      data.append("BookCommentReportForm[content]", this.reportRadio);
+      window.console.log(this.reportRadio);
+      this.$http
+        .post("/comment/report", data)
+        .then(response => {
+          window.console.log(response);
+          this.dialogVisible = false;
+        })
+        .catch(() => {
+          window.console.log("error");
+          this.dialogVisible = false;
+        });/**/ 
+    }
+  }
 };
 </script>
+<style>
+.fa:hover {
+  color: #1b9cdf;
+}
+.commentMedia:hover .comment-operate {
+  display: inline-block;
+}
+.commentMedia .comment-operate {
+  display: none;
+}
+</style>
 
