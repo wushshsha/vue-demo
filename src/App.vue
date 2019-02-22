@@ -8,8 +8,13 @@
         v-bind:user="comments.user[''+comment.user_id]"
       ></Comment>
     </ul>
-    <div class="bg-white border-top">
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+    <div class="bg-white border-top" v-if="comments.total > pageSize">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="parseInt(comments.total)"
+        @current-change="handleCurrentChange"
+      ></el-pagination>
     </div>
     <!----->
   </div>
@@ -23,17 +28,36 @@ export default {
   data: function() {
     return {
       comments: Array,
+      page: 1,
+      pageSize: 10
     };
   },
   components: {
     Comment
   },
   mounted() {
-    this.$http.get("/comment/c?id=1").then(
-      response => (this.comments = response.data)
-      //, window.console.log(response)
-    );
-    window.console.log(window.identify);
+    this.commentList();
   },
+  methods: {
+    commentList: function() {
+      this.$http
+        .get(
+          "/comment/c?id=" +
+            this.$entryId +
+            "&page=" +
+            this.page +
+            "&pageSize=" +
+            this.pageSize
+        )
+        .then(
+          response => (this.comments = response.data)
+          //, window.console.log(response)
+        );
+    },
+    handleCurrentChange: function(e) {
+      this.page = e;
+      this.commentList();
+    }
+  }
 };
 </script>

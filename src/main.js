@@ -30,7 +30,8 @@ axios.defaults.baseURL = 'https://html5zilla.com';
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
-Vue.prototype.$identify = window.identify;
+Vue.prototype.$identify = window.identify;//当前用户
+Vue.prototype.$entryId = window.entryId;//当前评论书本ID
 Vue.use(ElementUI);
 Vue.prototype.$date = function(obj)
 {
