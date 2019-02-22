@@ -165,9 +165,14 @@ export default {
 
       this.$http.post("/comment/delete", data).then(response => {
         window.console.log(response);
-        if (response.data.success)
-          this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
-        this.comment.status = 2;
+        if (response.data.success) {
+          this.$set(this.comment, "status", 2);
+          this.$set(
+            this.comment,
+            "content",
+            "<p class='text-muted'>该评论已经被删除</p>"
+          );
+        }
       });
     },
     report: function() {

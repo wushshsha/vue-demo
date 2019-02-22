@@ -36,7 +36,10 @@
             </el-dropdown>
           </el-col>
         </div>
-        <Editor v-if="currentReplyId==this.reply.comment_id" v-on:editor-content="handleEditorContent"></Editor>
+        <Editor
+          v-if="currentReplyId==this.reply.comment_id"
+          v-on:editor-content="handleEditorContent"
+        ></Editor>
       </div>
     </div>
 
@@ -73,7 +76,7 @@ export default {
     return {
       dialogVisible: false,
       reportRadio: Number,
-      replyStatus: false,
+      replyStatus: false
     };
   },
   props: {
@@ -81,7 +84,7 @@ export default {
     user: Object,
     euser: Object,
     comment: Object,
-    currentReplyId:Number,//当前回复ID
+    currentReplyId: Number //当前回复ID
   },
   methods: {
     del: function() {
@@ -90,8 +93,14 @@ export default {
 
       this.$http.post("/comment/delete", data).then(response => {
         window.console.log(response);
-        if (response.data.success)
-          this.reply.content = "<p class='text-muted'>该评论已经被删除</p>";
+        if (response.data.success) {
+          this.$set(this.reply, "status", 2);
+          this.$set(
+            this.reply,
+            "content",
+            "<p class='text-muted'>该评论已经被删除</p>"
+          );
+        }
       });
     },
     report: function() {
@@ -111,15 +120,15 @@ export default {
           this.dialogVisible = false;
         }); /**/
     },
-    ReplyEenterEvent: function(){
+    ReplyEenterEvent: function() {
       this.replyStatus = !this.replyStatus;
-      this.$emit('reply-event',this.reply.comment_id);
+      this.$emit("reply-event", this.reply.comment_id);
     },
-    handleEditorContent: function(e){
-      this.$emit('reply-content',{
+    handleEditorContent: function(e) {
+      this.$emit("reply-content", {
         parent_id: this.comment.comment_id,
         entry_id: this.reply.user_id,
-        content:e,
+        content: e
       });
     }
   }
