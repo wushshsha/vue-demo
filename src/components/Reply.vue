@@ -1,5 +1,5 @@
 <template>
-  <li class="media replyMedia mt-4" v-bind:id="reply.comment_id" v-if="reply.status=1">
+  <li class="media replyMedia mt-4" v-bind:id="reply.comment_id" v-if="reply.status==1">
     <div
       class="media-object avatar mr-4"
       v-bind:style="'background-image: url(//online2.html5zilla.com/'+user.profile.avatar+')'"
@@ -7,14 +7,15 @@
     <div class="media-body">
       <div class="d-md-flex">
         <div v-if="reply.user_id === reply.entry_id || reply.entry_id === comment.user_id">
-          <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a> 回复
+          <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a>
         </div>
         <div v-else>
           <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a> 回复
           <a v-bind:href="'/user/book/'+reply.entry_id">{{euser.username}}</a>
         </div>
         <div class="mx-3" style="margin-bottom: -15px;">
-          <div v-html="reply.content"></div>
+          <div v-if="reply.status == 1" v-html="reply.content"></div>
+          <div v-else-if="reply.status == 2" v-html="reply.reason" class="text-muted"></div>
         </div>
       </div>
       <div>
@@ -94,12 +95,12 @@ export default {
       this.$http.post("/comment/delete", data).then(response => {
         window.console.log(response);
         if (response.data.success) {
-          this.$set(this.reply, "status", 2);
           this.$set(
             this.reply,
-            "content",
+            "reason",
             "<p class='text-muted'>该评论已经被删除</p>"
           );
+          this.$set(this.reply, "status", 2);
         }
       });
     },

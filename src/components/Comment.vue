@@ -75,7 +75,10 @@
           ></Reply>
           <div v-if="fold && replys.total>3 && pageSize==3">
             共{{replys.total}}条回复，
-            <span v-on:click="pageSize=10; handleCurrentChange(1)">点击查看</span>
+            <span
+              v-on:click="pageSize=10; handleCurrentChange(1)"
+              class="btn btn-primary btn-sm"
+            >点击查看</span>
           </div>
           <div class="block" v-if="pageSize==10 &&  replys.total>pageSize">
             <el-pagination
@@ -166,12 +169,12 @@ export default {
       this.$http.post("/comment/delete", data).then(response => {
         window.console.log(response);
         if (response.data.success) {
-          this.$set(this.comment, "status", 2);
           this.$set(
             this.comment,
-            "content",
+            "reason",
             "<p class='text-muted'>该评论已经被删除</p>"
           );
+          this.$set(this.comment, "status", 2);
         }
       });
     },
