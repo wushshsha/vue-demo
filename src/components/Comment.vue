@@ -131,16 +131,22 @@ export default {
     Reply
   },
   mounted() {
+    window.console.log("tt1");
     this.replyList();
+    window.console.log("tt2");
+
     this.oldLikeStatus = this.like && this.like.status == 1;
     this.oldUnlikeStatus = this.like && this.like.status == -1;
     this.likeTotal =
-      (this.comment.likeTotal[0] ? this.comment.likeTotal[0] : 0) &&
-      this.comment.likeTotal[0].total;
+      (this.comment.likeTotal && this.comment.likeTotal[0]
+        ? this.comment.likeTotal[0]
+        : 0) && this.comment.likeTotal[0].total;
     this.unlikeTotal = -(
-      (this.comment.unlikeTotal[0] ? this.comment.unlikeTotal[0] : 0) &&
-      this.comment.unlikeTotal[0].total
+      (this.comment.unlikeTotal && this.comment.unlikeTotal[0]
+        ? this.comment.unlikeTotal[0]
+        : 0) && this.comment.unlikeTotal[0].total
     );
+    window.console.log("tt3");
   },
   methods: {
     reply: function() {},
@@ -153,6 +159,7 @@ export default {
         window.console.log(response);
         if (response.data.success)
           this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
+          this.comment.status = 2;
       });
     },
     report: function() {
@@ -188,11 +195,7 @@ export default {
             "&id=" +
             this.comment.comment_id
         )
-        .then(
-          response => (
-            (this.replys = response.data), window.console.log(response)
-          )
-        );
+        .then(response => (this.replys = response.data));
     },
     iLike: function() {
       let data = new FormData();
