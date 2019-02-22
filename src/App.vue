@@ -6,6 +6,7 @@
         v-bind:key="index"
         v-bind:comment="comment"
         v-bind:user="comments.user[''+comment.user_id]"
+        v-bind:like="comments.like[''+comment.comment_id]"
       ></Comment>
     </ul>
     <div class="bg-white border-top" v-if="comments.total > pageSize">

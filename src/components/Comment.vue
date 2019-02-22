@@ -20,12 +20,24 @@
         <div>
           <small class="text-muted">{{ Date(parseInt(comment.created_at))}}</small>
           <span class="mx-2">
-            <i class="fa fa-thumbs-o-up comment-like"></i>
-            <span class="likeCount"></span>
+            <i
+              v-if="oldLikeStatus"
+              class="fa fa-thumbs-up comment-like"
+              style="color:#1b9cdf"
+              v-on:click="iLike"
+            ></i>
+            <i v-else class="fa fa-thumbs-o-up comment-like" v-on:click="iLike"></i>
+            <span class="likeCount">{{likeTotal}}</span>
           </span>
           <span class="mx-2">
-            <i class="fa fa-thumbs-o-down comment-unlike"></i>
-            <span class="unlikeCount"></span>
+            <i
+              v-if="oldUnlikeStatus"
+              class="fa fa-thumbs-down comment-unlike"
+              style="color:#1b9cdf"
+              v-on:click="iUnlike"
+            ></i>
+            <i v-else class="fa fa-thumbs-o-down comment-unlike" v-on:click="iUnlike"></i>
+            <span class="unlikeCount">{{unlikeTotal}}</span>
           </span>
           <span class="comment-reply btn btn-white btn-sm">Comment</span>
           <div class="float-right mr-5" v-if="comment.status == 1">
@@ -103,18 +115,32 @@ export default {
       reportRadio: Number, //举报选项
       fold: Boolean, //折叠状态
       page: 1,
-      pageSize: 3
+      pageSize: 3,
+      oldLikeStatus: false,
+      oldUnlikeStatus: false,
+      likeTotal: 0,
+      unlikeTotal: 0
     };
   },
   props: {
     comment: Object,
-    user: Object
+    user: Object,
+    like: Object
   },
   components: {
     Reply
   },
   mounted() {
     this.replyList();
+    this.oldLikeStatus = this.like && this.like.status == 1;
+    this.oldUnlikeStatus = this.like && this.like.status == -1;
+    this.likeTotal =
+      (this.comment.likeTotal[0] ? this.comment.likeTotal[0] : 0) &&
+      this.comment.likeTotal[0].total;
+    this.unlikeTotal = -(
+      (this.comment.unlikeTotal[0] ? this.comment.unlikeTotal[0] : 0) &&
+      this.comment.unlikeTotal[0].total
+    );
   },
   methods: {
     reply: function() {},
@@ -167,10 +193,70 @@ export default {
             (this.replys = response.data), window.console.log(response)
           )
         );
+    },
+    iLike: function() {
+      let data = new FormData();
+      data.append("id", this.comment.comment_id);
+      this.$http.post("/comment/like", data).then(response => {
+        window.console.log(response);
+        if (response.data.success) {
+          this.changeLikeStatus(response.data);
+        }
+      });
+    },
+    iUnlike: function() {
+      let data = new FormData();
+      data.append("id", this.comment.comment_id);
+      this.$http.post("/comment/unlike", data).then(response => {
+        window.console.log(response);
+        if (response.data.success) {
+          this.changeLikeStatus(response.data);
+        }
+      });
+    },
+    changeLikeStatus: function(response) {
+      if (response.data.status == "like") {
+        if (response.data.oldStatus == "unlike") {
+          this.unlikeTotal--;
+          this.likeTotal++;
+        } else if (response.data.oldStatus == "none") {
+          this.likeTotal++;
+        }
+        this.oldLikeStatus = true;
+        this.oldUnlikeStatus = false;
+      } else if (response.data.status == "none") {
+        if (response.data.oldStatus == "unlike") {
+          this.unlikeTotal--;
+        } else if (response.data.oldStatus == "like") {
+          this.likeTotal--;
+        }
+        this.oldLikeStatus = false;
+        this.oldUnlikeStatus = false;
+      } else if (response.data.status == "unlike") {
+        if (response.data.oldStatus == "none") {
+          this.unlikeTotal++;
+        } else if (response.data.oldStatus == "like") {
+          this.unlikeTotal++;
+          this.likeTotal--;
+        }
+        this.oldLikeStatus = false;
+        this.oldUnlikeStatus = true;
+      }
+      window.console.log(response.data.status);
+      window.console.log(response.data.oldStatus);
+      window.console.log(
+        this.likeTotal +
+          "," +
+          this.unlikeTotal +
+          "," +
+          this.oldLikeStatus +
+          "," +
+          this.oldUnlikeStatus
+      );
     }
   },
   watch: {
-    comment: function(){
+    comment: function() {
       this.replyList();
     }
   }
