@@ -39,7 +39,7 @@
             <i v-else class="fa fa-thumbs-o-down comment-unlike" v-on:click="iUnlike"></i>
             <span class="unlikeCount">{{unlikeTotal}}</span>
           </span>
-          <span class="comment-reply btn btn-white btn-sm">Comment</span>
+          <span class="comment-reply btn btn-white btn-sm" v-on:click="commentEnterEvent">Comment</span>
           <div class="float-right mr-5" v-if="comment.status == 1">
             <el-col :span="12">
               <el-dropdown trigger="click">
@@ -56,6 +56,10 @@
               </el-dropdown>
             </el-col>
           </div>
+          <editor
+            v-if="currentReplyId==this.comment.comment_id"
+            v-on:editor-content="handleComment"
+          ></editor>
         </div>
         <ul class="list-group replyLayout card-list-group comment-reply-list">
           <Reply
@@ -65,6 +69,9 @@
             v-bind:user="replys.user[''+reply.user_id]"
             v-bind:euser="replys.user[''+reply.entry_id]"
             v-bind:comment="comment"
+            v-on:reply-event="replyEnterEvent"
+            v-bind:currentReplyId="currentReplyId"
+            v-on:reply-content="replyContentEvnet"
           ></Reply>
           <div v-if="fold && replys.total>3 && pageSize==3">
             共{{replys.total}}条回复，
@@ -106,6 +113,7 @@
 
 <script>
 import Reply from "./Reply.vue";
+import Editor from "./Editor.vue";
 export default {
   name: "Comment",
   data() {
@@ -119,21 +127,22 @@ export default {
       oldLikeStatus: false,
       oldUnlikeStatus: false,
       likeTotal: 0,
-      unlikeTotal: 0
+      unlikeTotal: 0,
+      commentStatus: false
     };
   },
   props: {
     comment: Object,
     user: Object,
-    like: Object
+    like: Object,
+    currentReplyId: Number
   },
   components: {
-    Reply
+    Reply,
+    Editor
   },
   mounted() {
-    window.console.log("tt1");
     this.replyList();
-    window.console.log("tt2");
 
     this.oldLikeStatus = this.like && this.like.status == 1;
     this.oldUnlikeStatus = this.like && this.like.status == -1;
@@ -146,7 +155,6 @@ export default {
         ? this.comment.unlikeTotal[0]
         : 0) && this.comment.unlikeTotal[0].total
     );
-    window.console.log("tt3");
   },
   methods: {
     reply: function() {},
@@ -159,7 +167,7 @@ export default {
         window.console.log(response);
         if (response.data.success)
           this.comment.content = "<p class='text-muted'>该评论已经被删除</p>";
-          this.comment.status = 2;
+        this.comment.status = 2;
       });
     },
     report: function() {
@@ -256,6 +264,43 @@ export default {
           "," +
           this.oldUnlikeStatus
       );
+    },
+    handleComment: function(e) {
+      window.console.log(e);
+      let data = new FormData();
+      data.append("BookCommentForm[parent_id]", this.comment.comment_id);
+      data.append("BookCommentForm[entry_id]", this.comment.user_id);
+      data.append("BookCommentForm[content]", e);
+
+      this.$http.post("/comment/reply", data).then(response => {
+        if (response.data.success) {
+          let reply = response.data.data;
+          this.$set(this.replys.user, "" + reply.user.id, reply.user);
+          this.replys.reply.push(reply.reply);
+        }
+      });
+    },
+    replyEnterEvent: function(e) {
+      //this.currentReplyId = parseInt(e);
+      this.$emit("reply-event", e);
+    },
+    commentEnterEvent: function() {
+      this.$emit("reply-event", this.comment.comment_id);
+    },
+    replyContentEvnet: function(e) {
+      window.console.log(e);
+      let data = new FormData();
+      data.append("BookCommentForm[parent_id]", e.parent_id);
+      data.append("BookCommentForm[entry_id]", e.entry_id);
+      data.append("BookCommentForm[content]", e.content);
+
+      this.$http.post("/comment/reply", data).then(response => {
+        if (response.data.success) {
+          let reply = response.data.data;
+          this.$set(this.replys.user, "" + reply.user.id, reply.user);
+          this.replys.reply.push(reply.reply);
+        }
+      });
     }
   },
   watch: {

@@ -19,7 +19,7 @@
       </div>
       <div>
         <small class="text-muted">{{ Date(parseInt(reply.created_at))}}</small>
-        <span class="comment-reply btn btn-white btn-sm">Comment</span>
+        <span class="comment-reply btn btn-white btn-sm" v-on:click="ReplyEenterEvent">Comment</span>
         <div class="float-right mr-5" v-if="reply.status == 1">
           <el-col :span="12">
             <el-dropdown trigger="click">
@@ -36,8 +36,10 @@
             </el-dropdown>
           </el-col>
         </div>
+        <Editor v-if="currentReplyId==this.reply.comment_id" v-on:editor-content="handleEditorContent"></Editor>
       </div>
     </div>
+
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
@@ -61,19 +63,25 @@
   </li>
 </template>
 <script>
+import Editor from "./Editor.vue";
 export default {
   name: "reply",
+  components: {
+    Editor
+  },
   data() {
     return {
       dialogVisible: false,
-      reportRadio: Number
+      reportRadio: Number,
+      replyStatus: false,
     };
   },
   props: {
     reply: Object,
     user: Object,
     euser: Object,
-    comment: Object
+    comment: Object,
+    currentReplyId:Number,//当前回复ID
   },
   methods: {
     del: function() {
@@ -102,6 +110,17 @@ export default {
           window.console.log("error");
           this.dialogVisible = false;
         }); /**/
+    },
+    ReplyEenterEvent: function(){
+      this.replyStatus = !this.replyStatus;
+      this.$emit('reply-event',this.reply.comment_id);
+    },
+    handleEditorContent: function(e){
+      this.$emit('reply-content',{
+        parent_id: this.comment.comment_id,
+        entry_id: this.reply.user_id,
+        content:e,
+      });
     }
   }
 };
