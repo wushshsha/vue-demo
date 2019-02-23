@@ -14,28 +14,32 @@ export default {
   name: "Editor",
   data() {
     return {
-      editorContent: ""
+      editorContent: "",
+      editor: Object
     };
   },
   methods: {
     getContent: function() {
       window.console.log(this.editorContent);
-      this.$emit("editor-content", this.editorContent);
+      if (this.editorContent.length > 8) {
+        this.$emit("editor-content", this.editorContent);
+        this.editor.txt.clear();
+      }
     }
   },
   mounted() {
-    var editor = new E(this.$refs.editor);
-    editor.customConfig.onchange = html => {
+    this.editor = new E(this.$refs.editor);
+    this.editor.customConfig.onchange = html => {
       let temp = html.replace(/<p><br><\/p>/g, "");
       this.editorContent = temp;
       window.console.log(temp);
     };
-    editor.customConfig.onblur = html => {
+    this.editor.customConfig.onblur = html => {
       let temp = html.replace(/<p><br><\/p>/g, "");
       this.editorContent = temp;
       window.console.log(temp);
     };
-    editor.customConfig.menus = [
+    this.editor.customConfig.menus = [
       //'head',  // 标题
       //'bold',  // 粗体
       //'fontSize',  // 字号
@@ -57,7 +61,7 @@ export default {
       //'undo',  // 撤销
       //'redo'  // 重复
     ]; /**/
-    editor.create();
+    this.editor.create();
   }
 };
 </script>

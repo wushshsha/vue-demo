@@ -183,7 +183,7 @@ export default {
     },
     report: function() {
       //举报评论事件
-      window.console.log("report");
+      if (!(typeof this.reportRadio == "string")) return;//用户是否选择
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.comment.comment_id);
       data.append("BookCommentReportForm[content]", this.reportRadio);
@@ -250,7 +250,8 @@ export default {
         }
       });
     },
-    changeLikeStatus: function(response) {//切换like和unlike状态
+    changeLikeStatus: function(response) {
+      //切换like和unlike状态
       if (response.data.status == "like") {
         if (response.data.oldStatus == "unlike") {
           this.unlikeTotal--;
@@ -290,7 +291,8 @@ export default {
           this.unlikeStatus
       );
     },
-    handleComment: function(e) {//回复该评论事件
+    handleComment: function(e) {
+      //回复该评论事件
       window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", this.comment.comment_id);
@@ -305,14 +307,17 @@ export default {
         }
       });
     },
-    replyEnterEvent: function(e) {//子级回复评论按钮被点击触发事件
+    replyEnterEvent: function(e) {
+      //子级回复评论按钮被点击触发事件
       this.$emit("reply-event", e);
     },
-    commentEnterEvent: function() {//回复评论按钮被点击触发事件
+    commentEnterEvent: function() {
+      //回复评论按钮被点击触发事件
       if (!this.$loginStatus) this.$emit("login-event");
       else this.$emit("reply-event", this.comment.comment_id);
     },
-    replyContentEvnet: function(e) {//子级回复评论事件
+    replyContentEvnet: function(e) {
+      //子级回复评论事件
       window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", e.parent_id);
@@ -327,16 +332,19 @@ export default {
         }
       });
     },
-    handleReport: function() {//举报该评论
+    handleReport: function() {
+      //举报该评论
       if (!this.$loginStatus) this.$emit("login-event");
       else this.dialogVisible = true;
     },
-    handleLogin: function() {//子级登陆事件触发
+    handleLogin: function() {
+      //子级登陆事件触发
       this.$emit("login-event");
     }
   },
   watch: {
-    comment: function() {//检测comment是否变化，如果变化，重新加载回复列表
+    comment: function() {
+      //检测comment是否变化，如果变化，重新加载回复列表
       this.replyList();
     }
   }

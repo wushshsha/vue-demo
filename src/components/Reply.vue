@@ -74,23 +74,24 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,//举报对话框打开状体
-      reportRadio: String,//举报项
+      dialogVisible: false, //举报对话框打开状体
+      reportRadio: String, //举报项
       loginStatus: false, //当前用户登陆状态
       loginDialogStatus: false //当前登陆对话框显示状态
     };
   },
   props: {
-    reply: Object,//当前回复评论object
-    user: Object,//当前回复评论的用户object
-    euser: Object,//当前回复评论回复的用户的object
-    comment: Object,//当前回复评论的首层评论
+    reply: Object, //当前回复评论object
+    user: Object, //当前回复评论的用户object
+    euser: Object, //当前回复评论回复的用户的object
+    comment: Object, //当前回复评论的首层评论
     currentReplyId: Number //当前正在被回复的评论的ID
   },
   methods: {
-    del: function() {//删除评论事件
+    del: function() {
+      //删除评论事件
       if (!this.$loginStatus) {
-        this.$emit('login-event');
+        this.$emit("login-event");
         return;
       }
 
@@ -109,8 +110,9 @@ export default {
         }
       });
     },
-    report: function() {//举报评论事件
-      window.console.log("report");
+    report: function() {
+      //举报评论事件
+      if (!(typeof this.reportRadio == "string")) return; //用户是否选择
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.reply.comment_id);
       data.append("BookCommentReportForm[content]", this.reportRadio);
@@ -126,18 +128,21 @@ export default {
           this.dialogVisible = false;
         }); /**/
     },
-    ReplyEenterEvent: function() {//回复按钮被点击事件
+    ReplyEenterEvent: function() {
+      //回复按钮被点击事件
       if (!this.$loginStatus) this.$emit("login-event");
       else this.$emit("reply-event", this.reply.comment_id);
     },
-    handleEditorContent: function(e) {//回复内容被提交事件
+    handleEditorContent: function(e) {
+      //回复内容被提交事件
       this.$emit("reply-content", {
         parent_id: this.comment.comment_id,
         entry_id: this.reply.user_id,
         content: e
       });
     },
-    handleReport: function() {//举报按钮被点击事件
+    handleReport: function() {
+      //举报按钮被点击事件
       if (this.$loginStatus) this.dialogVisible = true;
       else {
         this.$emit("login-event");
