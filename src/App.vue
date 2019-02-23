@@ -12,7 +12,7 @@
         v-on:login-event="loginDialogStatus=true"
       ></Comment>
     </ul>
-    <div class="bg-white border-top" v-if="comments.total > pageSize">
+    <div v-if="comments.total > pageSize">
       <el-pagination
         background
         layout="prev, pager, next"

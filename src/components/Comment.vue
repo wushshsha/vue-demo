@@ -83,6 +83,8 @@
           </div>
           <div class="block" v-if="pageSize==10 &&  replys.total>pageSize">
             <el-pagination
+              small
+              background
               layout="prev, pager, next"
               :total="parseInt(replys.total)"
               :page-size="10"
