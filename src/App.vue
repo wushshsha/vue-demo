@@ -75,7 +75,6 @@ export default {
         )
         .then(
           response => (this.comments = response.data)
-          //, window.console.log(response)
         );
     },
     handleCurrentChange: function(e) {//页面评论切换事件
@@ -83,16 +82,12 @@ export default {
       this.commentList();
     },
     handleComment: function(e) {//发评论事件
-      window.console.log("send comment");
-      window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[entry_id]", this.$entryId);
       data.append("BookCommentForm[content]", e);
 
       this.$http.post("/comment/create", data).then(response => {
-        window.console.log(response);
         if (response.data.success) {
-          window.console.log(response.data.data);
           let comment = response.data.data;
           this.$set(this.comments.user, "" + comment.user.id, comment.user);
           this.comments.comment.push(comment.comment);

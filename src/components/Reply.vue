@@ -99,7 +99,6 @@ export default {
       data.append("id", this.reply.comment_id);
 
       this.$http.post("/comment/delete", data).then(response => {
-        window.console.log(response);
         if (response.data.success) {
           this.$set(
             this.reply,
@@ -116,15 +115,12 @@ export default {
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.reply.comment_id);
       data.append("BookCommentReportForm[content]", this.reportRadio);
-      window.console.log(this.reportRadio);
       this.$http
         .post("/comment/report", data)
-        .then(response => {
-          window.console.log(response);
+        .then(() => {
           this.dialogVisible = false;
         })
         .catch(() => {
-          window.console.log("error");
           this.dialogVisible = false;
         }); /**/
     },

@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     getContent: function() {
-      window.console.log(this.editorContent);
       if (this.editorContent.length > 8) {
         this.$emit("editor-content", this.editorContent);
         this.editor.txt.clear();
@@ -32,12 +31,10 @@ export default {
     this.editor.customConfig.onchange = html => {
       let temp = html.replace(/<p><br><\/p>/g, "");
       this.editorContent = temp;
-      window.console.log(temp);
     };
     this.editor.customConfig.onblur = html => {
       let temp = html.replace(/<p><br><\/p>/g, "");
       this.editorContent = temp;
-      window.console.log(temp);
     };
     this.editor.customConfig.menus = [
       //'head',  // 标题

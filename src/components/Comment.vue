@@ -161,7 +161,6 @@ export default {
   methods: {
     del: function() {
       //删除评论事件
-      window.console.log("delete");
       if (!this.$loginStatus) {
         this.$emit("login-event");
         return;
@@ -170,7 +169,6 @@ export default {
       data.append("id", this.comment.comment_id);
 
       this.$http.post("/comment/delete", data).then(response => {
-        window.console.log(response);
         if (response.data.success) {
           this.$set(
             this.comment,
@@ -187,15 +185,12 @@ export default {
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.comment.comment_id);
       data.append("BookCommentReportForm[content]", this.reportRadio);
-      window.console.log(this.reportRadio);
       this.$http
         .post("/comment/report", data)
-        .then(response => {
-          window.console.log(response);
+        .then(() => {
           this.dialogVisible = false;
         })
         .catch(() => {
-          window.console.log("error");
           this.dialogVisible = false;
         }); /**/
     },
@@ -203,7 +198,6 @@ export default {
       //回复评论页面改变事件
       this.page = val;
       this.pageSize = 10;
-      window.console.log(`当前页: ${val}`);
       this.replyList();
     },
     replyList: function() {
@@ -228,7 +222,6 @@ export default {
       let data = new FormData();
       data.append("id", this.comment.comment_id);
       this.$http.post("/comment/like", data).then(response => {
-        window.console.log(response);
         if (response.data.success) {
           this.changeLikeStatus(response.data);
         }
@@ -244,7 +237,6 @@ export default {
       let data = new FormData();
       data.append("id", this.comment.comment_id);
       this.$http.post("/comment/unlike", data).then(response => {
-        window.console.log(response);
         if (response.data.success) {
           this.changeLikeStatus(response.data);
         }
@@ -279,21 +271,9 @@ export default {
         this.likeStatus = false;
         this.unlikeStatus = true;
       }
-      window.console.log(response.data.status);
-      window.console.log(response.data.oldStatus);
-      window.console.log(
-        this.likeTotal +
-          "," +
-          this.unlikeTotal +
-          "," +
-          this.likeStatus +
-          "," +
-          this.unlikeStatus
-      );
     },
     handleComment: function(e) {
       //回复该评论事件
-      window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", this.comment.comment_id);
       data.append("BookCommentForm[entry_id]", this.comment.user_id);
@@ -318,7 +298,6 @@ export default {
     },
     replyContentEvnet: function(e) {
       //子级回复评论事件
-      window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", e.parent_id);
       data.append("BookCommentForm[entry_id]", e.entry_id);
@@ -342,8 +321,6 @@ export default {
       this.$emit("login-event");
     },
     updateCommentDate(dat){
-      //window.console.log(dat);
-      //window.console.log(Date.now());
       return this.$moment(dat).startOf('day').fromNow();
       //return this.$moment(dat).format('LLL');
     }
