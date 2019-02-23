@@ -1,6 +1,6 @@
 <template>
-  <li
-    class="list-group-item py-5"
+  <div
+    class="my-2"
     v-bind:id="comment.comment_id"
     v-if="comment.status == 1 || (comment.status != 1 && replys.reply && replys.reply.length > 0)"
   >
@@ -111,7 +111,7 @@
         <el-button type="primary" @click="report">Enter</el-button>
       </span>
     </el-dialog>
-  </li>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <li class="media replyMedia mt-4" v-bind:id="reply.comment_id" v-if="reply.status==1">
+  <li class="media replyMedia mt-2" v-bind:id="reply.comment_id" v-if="reply.status==1">
     <div
       class="media-object avatar mr-4"
       v-bind:style="'background-image: url('+ (user.profile.avatar ? '//online2.html5zilla.com/'+ user.profile.avatar :'/statics/image/4.jpg')+')'"
