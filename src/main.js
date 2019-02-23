@@ -33,15 +33,9 @@ Vue.prototype.$http = axios;
 Vue.prototype.$identify = window.identify;//当前用户
 Vue.prototype.$entryId = window.entryId;//当前评论书本ID
 Vue.prototype.$loginStatus = window.loginStatus;//当前用户登陆状体
+Vue.prototype.$moment = require('moment');//时间转化函数
+
 Vue.use(ElementUI);
-Vue.prototype.$date = function(obj)
-{
-  var date =  new Date(parseInt(obj));
-  var y = 1900+date.getYear();
-  var m = "0"+(date.getMonth()+1);
-  var d = "0"+date.getDate();
-  return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
-};
 new Vue({
   render: h => h(App),
 }).$mount('#app');

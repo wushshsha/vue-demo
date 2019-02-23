@@ -18,7 +18,7 @@
           <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
         </div>
         <div>
-          <small class="text-muted">{{ Date(parseInt(comment.created_at))}}</small>
+          <small class="text-muted">{{updateCommentDate(parseInt(comment.created_at +'000'))}}</small>
           <span class="mx-2">
             <i
               v-if="likeStatus"
@@ -340,6 +340,12 @@ export default {
     handleLogin: function() {
       //子级登陆事件触发
       this.$emit("login-event");
+    },
+    updateCommentDate(dat){
+      //window.console.log(dat);
+      //window.console.log(Date.now());
+      return this.$moment(dat).startOf('day').fromNow();
+      //return this.$moment(dat).format('LLL');
     }
   },
   watch: {
