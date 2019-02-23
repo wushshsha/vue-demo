@@ -21,7 +21,7 @@
           <small class="text-muted">{{ Date(parseInt(comment.created_at))}}</small>
           <span class="mx-2">
             <i
-              v-if="oldLikeStatus"
+              v-if="likeStatus"
               class="fa fa-thumbs-up comment-like"
               style="color:#1b9cdf"
               v-on:click="iLike"
@@ -31,7 +31,7 @@
           </span>
           <span class="mx-2">
             <i
-              v-if="oldUnlikeStatus"
+              v-if="unlikeStatus"
               class="fa fa-thumbs-down comment-unlike"
               style="color:#1b9cdf"
               v-on:click="iUnlike"
@@ -77,7 +77,7 @@
           <div v-if="fold && replys.total>3 && pageSize==3">
             共{{replys.total}}条回复，
             <span
-              v-on:click="pageSize=10; handleCurrentChange(1)"
+              v-on:click="handleCurrentChange(1)"
               class="btn btn-primary btn-sm"
             >点击查看</span>
           </div>
@@ -122,23 +122,22 @@ export default {
   data() {
     return {
       replys: Array, //回复数据
-      dialogVisible: false, //对话框打开状态
-      reportRadio: Number, //举报选项
-      fold: Boolean, //折叠状态
-      page: 1,
-      pageSize: 3,
-      oldLikeStatus: false,
-      oldUnlikeStatus: false,
-      likeTotal: 0,
-      unlikeTotal: 0,
-      commentStatus: false
+      dialogVisible: false, //举报对话框打开状态
+      reportRadio: String, //举报选项
+      fold: Boolean, //回复折叠状态
+      page: 1, //当前回复页面
+      pageSize: 3, //每页回复页面数
+      likeStatus: false, //当前用户对该评论对like状态
+      unlikeStatus: false, //当前用户对该评论的unlike状体啊
+      likeTotal: 0, //当前评判被like的数量
+      unlikeTotal: 0 //当前评论被unlike的数量
     };
   },
   props: {
-    comment: Object,
-    user: Object,
-    like: Object,
-    currentReplyId: Number
+    comment: Object, //评论object
+    user: Object, //评论的用户object
+    like: Object, //该评论被like或者是unlike的object
+    currentReplyId: Number //当前正在被回复的评论id
   },
   components: {
     Reply,
@@ -147,8 +146,8 @@ export default {
   mounted() {
     this.replyList();
 
-    this.oldLikeStatus = this.like && this.like.status == 1;
-    this.oldUnlikeStatus = this.like && this.like.status == -1;
+    this.likeStatus = this.like && this.like.status == 1;
+    this.unlikeStatus = this.like && this.like.status == -1;
     this.likeTotal =
       (this.comment.likeTotal && this.comment.likeTotal[0]
         ? this.comment.likeTotal[0]
@@ -160,8 +159,8 @@ export default {
     );
   },
   methods: {
-    reply: function() {},
     del: function() {
+      //删除评论事件
       window.console.log("delete");
       if (!this.$loginStatus) {
         this.$emit("login-event");
@@ -183,6 +182,7 @@ export default {
       });
     },
     report: function() {
+      //举报评论事件
       window.console.log("report");
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.comment.comment_id);
@@ -200,12 +200,14 @@ export default {
         }); /**/
     },
     handleCurrentChange(val) {
+      //回复评论页面改变事件
       this.page = val;
       this.pageSize = 10;
       window.console.log(`当前页: ${val}`);
       this.replyList();
     },
     replyList: function() {
+      //获取回复评论的list
       this.$http
         .get(
           "/comment/r?page=" +
@@ -218,6 +220,11 @@ export default {
         .then(response => (this.replys = response.data));
     },
     iLike: function() {
+      //点赞该评论事件
+      if (!this.$loginStatus) {
+        this.$emit("login-event");
+        return;
+      }
       let data = new FormData();
       data.append("id", this.comment.comment_id);
       this.$http.post("/comment/like", data).then(response => {
@@ -228,6 +235,12 @@ export default {
       });
     },
     iUnlike: function() {
+      //踩该评论事件
+      if (!this.$loginStatus) {
+        this.$emit("login-event");
+        return;
+      }
+
       let data = new FormData();
       data.append("id", this.comment.comment_id);
       this.$http.post("/comment/unlike", data).then(response => {
@@ -237,7 +250,7 @@ export default {
         }
       });
     },
-    changeLikeStatus: function(response) {
+    changeLikeStatus: function(response) {//切换like和unlike状态
       if (response.data.status == "like") {
         if (response.data.oldStatus == "unlike") {
           this.unlikeTotal--;
@@ -245,16 +258,16 @@ export default {
         } else if (response.data.oldStatus == "none") {
           this.likeTotal++;
         }
-        this.oldLikeStatus = true;
-        this.oldUnlikeStatus = false;
+        this.likeStatus = true;
+        this.unlikeStatus = false;
       } else if (response.data.status == "none") {
         if (response.data.oldStatus == "unlike") {
           this.unlikeTotal--;
         } else if (response.data.oldStatus == "like") {
           this.likeTotal--;
         }
-        this.oldLikeStatus = false;
-        this.oldUnlikeStatus = false;
+        this.likeStatus = false;
+        this.unlikeStatus = false;
       } else if (response.data.status == "unlike") {
         if (response.data.oldStatus == "none") {
           this.unlikeTotal++;
@@ -262,8 +275,8 @@ export default {
           this.unlikeTotal++;
           this.likeTotal--;
         }
-        this.oldLikeStatus = false;
-        this.oldUnlikeStatus = true;
+        this.likeStatus = false;
+        this.unlikeStatus = true;
       }
       window.console.log(response.data.status);
       window.console.log(response.data.oldStatus);
@@ -272,12 +285,12 @@ export default {
           "," +
           this.unlikeTotal +
           "," +
-          this.oldLikeStatus +
+          this.likeStatus +
           "," +
-          this.oldUnlikeStatus
+          this.unlikeStatus
       );
     },
-    handleComment: function(e) {
+    handleComment: function(e) {//回复该评论事件
       window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", this.comment.comment_id);
@@ -292,15 +305,14 @@ export default {
         }
       });
     },
-    replyEnterEvent: function(e) {
-      //this.currentReplyId = parseInt(e);
+    replyEnterEvent: function(e) {//子级回复评论按钮被点击触发事件
       this.$emit("reply-event", e);
     },
-    commentEnterEvent: function() {
+    commentEnterEvent: function() {//回复评论按钮被点击触发事件
       if (!this.$loginStatus) this.$emit("login-event");
       else this.$emit("reply-event", this.comment.comment_id);
     },
-    replyContentEvnet: function(e) {
+    replyContentEvnet: function(e) {//子级回复评论事件
       window.console.log(e);
       let data = new FormData();
       data.append("BookCommentForm[parent_id]", e.parent_id);
@@ -315,17 +327,16 @@ export default {
         }
       });
     },
-    handleReport: function() {
+    handleReport: function() {//举报该评论
       if (!this.$loginStatus) this.$emit("login-event");
       else this.dialogVisible = true;
     },
-    handleLogin: function()
-    {
-      this.$emit('login-event');
+    handleLogin: function() {//子级登陆事件触发
+      this.$emit("login-event");
     }
   },
   watch: {
-    comment: function() {
+    comment: function() {//检测comment是否变化，如果变化，重新加载回复列表
       this.replyList();
     }
   }

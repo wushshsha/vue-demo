@@ -47,11 +47,10 @@ export default {
   name: "app",
   data: function() {
     return {
-      comments: Array,
-      page: 1,
-      pageSize: 10,
-      newContent: Object,
-      currentReplyId: 0,
+      comments: Array,//当前评论列表
+      page: 1,//当前评论页面
+      pageSize: 10,//每页评论个数
+      currentReplyId: 0,//当前正被回复的评论ID
       loginStatus: false, //当前用户登陆状态
       loginDialogStatus: false //当前登陆对话框显示状态
     };
@@ -64,7 +63,7 @@ export default {
     this.commentList();
   },
   methods: {
-    commentList: function() {
+    commentList: function() {//获取评论列表
       this.$http
         .get(
           "/comment/c?id=" +
@@ -79,11 +78,11 @@ export default {
           //, window.console.log(response)
         );
     },
-    handleCurrentChange: function(e) {
+    handleCurrentChange: function(e) {//页面评论切换事件
       this.page = e;
       this.commentList();
     },
-    handleComment: function(e) {
+    handleComment: function(e) {//发评论事件
       window.console.log("send comment");
       window.console.log(e);
       let data = new FormData();
@@ -100,7 +99,7 @@ export default {
         }
       });
     },
-    replyEnterEvent: function(e) {
+    replyEnterEvent: function(e) {//回复评论事件
       this.currentReplyId = parseInt(e);
     }
   }
