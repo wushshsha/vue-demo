@@ -145,18 +145,7 @@ export default {
   },
   mounted() {
     this.replyList();
-
-    this.likeStatus = this.like && this.like.status == 1;
-    this.unlikeStatus = this.like && this.like.status == -1;
-    this.likeTotal =
-      (this.comment.likeTotal && this.comment.likeTotal[0]
-        ? this.comment.likeTotal[0]
-        : 0) && this.comment.likeTotal[0].total;
-    this.unlikeTotal = -(
-      (this.comment.unlikeTotal && this.comment.unlikeTotal[0]
-        ? this.comment.unlikeTotal[0]
-        : 0) && this.comment.unlikeTotal[0].total
-    );
+    this.updateLikeUnlikeData();
   },
   methods: {
     del: function() {
@@ -321,13 +310,29 @@ export default {
       this.$emit("login-event");
     },
     updateCommentDate() {
-      return this.$moment(parseInt(this.comment.created_at+'000')).format('YYYY-MM-DD HH:mm');
+      return this.$moment(parseInt(this.comment.created_at + "000")).format(
+        "YYYY-MM-DD HH:mm"
+      );
+    },
+    updateLikeUnlikeData() {
+      this.likeStatus = this.like && this.like.status == 1;
+      this.unlikeStatus = this.like && this.like.status == -1;
+      this.likeTotal =
+        (this.comment.likeTotal && this.comment.likeTotal[0]
+          ? this.comment.likeTotal[0]
+          : 0) && this.comment.likeTotal[0].total;
+      this.unlikeTotal = -(
+        (this.comment.unlikeTotal && this.comment.unlikeTotal[0]
+          ? this.comment.unlikeTotal[0]
+          : 0) && this.comment.unlikeTotal[0].total
+      );
     }
   },
   watch: {
     comment: function() {
       //检测comment是否变化，如果变化，重新加载回复列表
       this.replyList();
+      this.updateLikeUnlikeData();
     }
   }
 };
