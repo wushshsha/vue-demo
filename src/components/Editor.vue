@@ -2,7 +2,7 @@
   <div class="row">
     <div ref="editor" style="text-align:left" class="col-md-10"></div>
     <div class="col-md-2 align-self-end">
-      <span class="btn btn-success" v-on:click="getContent">reply</span>
+      <span class="btn btn-success" v-on:click="getContent">Comment</span>
     </div>
   </div>
 </template>

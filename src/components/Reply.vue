@@ -20,7 +20,7 @@
       </div>
       <div>
         <small class="text-muted">{{ updateCommentDate()}}</small>
-        <span class="comment-reply btn btn-white btn-sm" v-on:click="ReplyEenterEvent">Comment</span>
+        <span class="comment-reply btn btn-white btn-sm mx-3" v-on:click="ReplyEenterEvent">Comment</span>
         <div class="float-right mr-5" v-if="reply.status == 1">
           <el-col :span="12">
             <el-dropdown trigger="click">
