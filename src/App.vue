@@ -9,6 +9,7 @@
         v-bind:like="comments.like[''+comment.comment_id]"
         v-on:reply-event="replyEnterEvent"
         v-bind:currentReplyId="currentReplyId"
+        v-on:login-event="loginDialogStatus=true"
       ></Comment>
     </ul>
     <div class="bg-white border-top" v-if="comments.total > pageSize">
@@ -21,6 +22,20 @@
     </div>
     <!----->
     <Editor v-on:editor-content="handleComment"></Editor>
+    <el-dialog
+      title="login"
+      :visible.sync="loginDialogStatus"
+      :modal-append-to-body="false"
+      width="30%"
+      v-if="loginStatus == false"
+    >
+      <div>
+        <a href="/site/login">请登陆后再回复</a>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="loginDialogStatus = false">Cancel</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -36,7 +51,9 @@ export default {
       page: 1,
       pageSize: 10,
       newContent: Object,
-      currentReplyId:0,
+      currentReplyId: 0,
+      loginStatus: false, //当前用户登陆状态
+      loginDialogStatus: false //当前登陆对话框显示状态
     };
   },
   components: {
@@ -83,7 +100,7 @@ export default {
         }
       });
     },
-    replyEnterEvent: function(e){
+    replyEnterEvent: function(e) {
       this.currentReplyId = parseInt(e);
     }
   }

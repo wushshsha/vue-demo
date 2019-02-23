@@ -29,7 +29,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  v-on:click.native="dialogVisible = true"
+                  v-on:click.native="handleReport"
                   v-if="this.$identify != reply.user_id"
                 >Report</el-dropdown-item>
                 <el-dropdown-item v-on:click.native="del" v-else>Delete</el-dropdown-item>
@@ -45,11 +45,10 @@
     </div>
 
     <el-dialog
-      title="提示"
+      title="report"
       :visible.sync="dialogVisible"
       :modal-append-to-body="false"
       width="30%"
-      v-if="dialogVisible"
     >
       <div>
         <el-radio v-model="reportRadio" label="Sexual Content">Sexual Content</el-radio>
@@ -77,7 +76,8 @@ export default {
     return {
       dialogVisible: false,
       reportRadio: Number,
-      replyStatus: false
+      loginStatus: false, //当前用户登陆状态
+      loginDialogStatus: false //当前登陆对话框显示状态
     };
   },
   props: {
@@ -89,6 +89,11 @@ export default {
   },
   methods: {
     del: function() {
+      if (!this.$loginStatus) {
+        this.$emit('login-event');
+        return;
+      }
+
       let data = new FormData();
       data.append("id", this.reply.comment_id);
 
@@ -122,8 +127,8 @@ export default {
         }); /**/
     },
     ReplyEenterEvent: function() {
-      this.replyStatus = !this.replyStatus;
-      this.$emit("reply-event", this.reply.comment_id);
+      if (!this.$loginStatus) this.$emit("login-event");
+      else this.$emit("reply-event", this.reply.comment_id);
     },
     handleEditorContent: function(e) {
       this.$emit("reply-content", {
@@ -131,6 +136,12 @@ export default {
         entry_id: this.reply.user_id,
         content: e
       });
+    },
+    handleReport: function() {
+      if (this.$loginStatus) this.dialogVisible = true;
+      else {
+        this.$emit("login-event");
+      }
     }
   }
 };

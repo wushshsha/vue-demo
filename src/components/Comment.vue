@@ -48,7 +48,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item
-                    v-on:click.native="dialogVisible = true"
+                    v-on:click.native="handleReport"
                     v-if="this.$identify != comment.user_id"
                   >Report</el-dropdown-item>
                   <el-dropdown-item v-on:click.native="del" v-else>Delete</el-dropdown-item>
@@ -72,6 +72,7 @@
             v-on:reply-event="replyEnterEvent"
             v-bind:currentReplyId="currentReplyId"
             v-on:reply-content="replyContentEvnet"
+            v-on:login-event="handleLogin"
           ></Reply>
           <div v-if="fold && replys.total>3 && pageSize==3">
             共{{replys.total}}条回复，
@@ -92,11 +93,10 @@
       </div>
     </div>
     <el-dialog
-      title="提示"
+      title="report"
       :visible.sync="dialogVisible"
       :modal-append-to-body="false"
       width="30%"
-      v-if="dialogVisible"
     >
       <div>
         <el-radio v-model="reportRadio" label="Sexual Content">Sexual Content</el-radio>
@@ -107,8 +107,8 @@
         <el-radio v-model="reportRadio" label="Spam Or Misleading">Spam Or Misleading</el-radio>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="report">确 定</el-button>
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="report">Enter</el-button>
       </span>
     </el-dialog>
   </li>
@@ -163,6 +163,10 @@ export default {
     reply: function() {},
     del: function() {
       window.console.log("delete");
+      if (!this.$loginStatus) {
+        this.$emit("login-event");
+        return;
+      }
       let data = new FormData();
       data.append("id", this.comment.comment_id);
 
@@ -293,7 +297,8 @@ export default {
       this.$emit("reply-event", e);
     },
     commentEnterEvent: function() {
-      this.$emit("reply-event", this.comment.comment_id);
+      if (!this.$loginStatus) this.$emit("login-event");
+      else this.$emit("reply-event", this.comment.comment_id);
     },
     replyContentEvnet: function(e) {
       window.console.log(e);
@@ -309,6 +314,14 @@ export default {
           this.replys.reply.push(reply.reply);
         }
       });
+    },
+    handleReport: function() {
+      if (!this.$loginStatus) this.$emit("login-event");
+      else this.dialogVisible = true;
+    },
+    handleLogin: function()
+    {
+      this.$emit('login-event');
     }
   },
   watch: {
