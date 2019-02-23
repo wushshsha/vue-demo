@@ -3,9 +3,10 @@ import App from './App.vue'
 import axios from 'axios';
 
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
+import "element-ui/lib/theme-chalk/index.css"; 
 import "tabler-ui/dist/assets/css/dashboard.css";
 import "font-awesome/css/font-awesome.css";
+axios.defaults.baseURL = 'https://html5zilla.com';
 
 Date.prototype.Format = function(fmt)   
 { //author: meizz   
@@ -26,9 +27,8 @@ Date.prototype.Format = function(fmt)
   return fmt;   
 } ;
 
-axios.defaults.baseURL = 'https://html5zilla.com';
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false;//阻止发布模式下产生警告
 Vue.prototype.$http = axios;
 Vue.prototype.$identify = window.identify;//当前用户
 Vue.prototype.$entryId = window.entryId;//当前评论书本ID

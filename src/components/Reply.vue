@@ -2,11 +2,11 @@
   <li class="media replyMedia mt-4" v-bind:id="reply.comment_id" v-if="reply.status==1">
     <div
       class="media-object avatar mr-4"
-      v-bind:style="'background-image: url(//online2.html5zilla.com/'+user.profile.avatar+')'"
+      v-bind:style="'background-image: url('+ (user.profile.avatar ? '//online2.html5zilla.com/'+ user.profile.avatar :'/statics/image/4.jpg')+')'"
     ></div>
     <div class="media-body">
       <div class="d-md-flex">
-        <div v-if="reply.user_id === reply.entry_id || reply.entry_id === comment.user_id">
+        <div v-if="reply.user_id == reply.entry_id || reply.entry_id == comment.user_id">
           <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a>
         </div>
         <div v-else>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div>
-        <small class="text-muted">{{ Date(parseInt(reply.created_at))}}</small>
+        <small class="text-muted">{{ updateCommentDate()}}</small>
         <span class="comment-reply btn btn-white btn-sm" v-on:click="ReplyEenterEvent">Comment</span>
         <div class="float-right mr-5" v-if="reply.status == 1">
           <el-col :span="12">
@@ -143,6 +143,9 @@ export default {
       else {
         this.$emit("login-event");
       }
+    },
+    updateCommentDate() {
+      return this.$moment(parseInt(this.comment.created_at+'000')).format('YYYY-MM-DD HH:mm');
     }
   }
 };

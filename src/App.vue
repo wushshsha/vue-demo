@@ -82,6 +82,10 @@ export default {
       this.commentList();
     },
     handleComment: function(e) {//发评论事件
+      if(this.$loginStatus == false){
+        this.loginDialogStatus = true;
+        return;
+      }
       let data = new FormData();
       data.append("BookCommentForm[entry_id]", this.$entryId);
       data.append("BookCommentForm[content]", e);

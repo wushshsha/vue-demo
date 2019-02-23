@@ -7,7 +7,7 @@
     <div class="media commentMedia">
       <div
         class="media-object avatar avatar-md mr-4"
-        v-bind:style="'background-image: url(//online2.html5zilla.com/'+user.profile.avatar+')'"
+        v-bind:style="'background-image: url('+ (user.profile.avatar ? '//online2.html5zilla.com/'+ user.profile.avatar :'/statics/image/4.jpg')+')'"
       ></div>
       <div class="media-body">
         <div>
@@ -18,7 +18,7 @@
           <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
         </div>
         <div>
-          <small class="text-muted">{{updateCommentDate(parseInt(comment.created_at +'000'))}}</small>
+          <small class="text-muted">{{updateCommentDate()}}</small>
           <span class="mx-2">
             <i
               v-if="likeStatus"
@@ -181,7 +181,7 @@ export default {
     },
     report: function() {
       //举报评论事件
-      if (!(typeof this.reportRadio == "string")) return;//用户是否选择
+      if (!(typeof this.reportRadio == "string")) return; //用户是否选择
       let data = new FormData();
       data.append("BookCommentReportForm[comment_id]", this.comment.comment_id);
       data.append("BookCommentReportForm[content]", this.reportRadio);
@@ -320,9 +320,8 @@ export default {
       //子级登陆事件触发
       this.$emit("login-event");
     },
-    updateCommentDate(dat){
-      return this.$moment(dat).startOf('day').fromNow();
-      //return this.$moment(dat).format('LLL');
+    updateCommentDate() {
+      return this.$moment(parseInt(this.comment.created_at+'000')).format('YYYY-MM-DD HH:mm');
     }
   },
   watch: {
