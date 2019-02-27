@@ -5,21 +5,30 @@
     v-if="comment.status == 1 || (comment.status != 1 && replys.reply && replys.reply.length > 0)"
   >
     <div class="media commentMedia">
-      <div
-        class="media-object avatar avatar-md mr-4"
-        v-bind:style="'background-image: url('+ (user.profile.avatar ? '//online2.html5zilla.com/'+ user.profile.avatar :'/statics/image/4.jpg')+')'"
-      ></div>
+      <div class="mr-5 text-center">
+        <a
+          :href="'/user/book/'+user.id"
+          class="media-object avatar avatar-md"
+          v-bind:style="'background-image: url('+ $s3UrlHead + user.profile.avatar + ')'"
+          v-if="user.profile.avatar"
+        ></a>
+        <a
+          :href="'/user/book/'+user.id"
+          v-html="user.profile.avatar_svg"
+          v-else
+          class="comment-avatar"
+        ></a>
+      </div>
+
       <div class="media-body">
         <div>
-          <a :href="'/user/book/'+comment.user_id">{{user.username}}</a>
+          <a :href="'/user/book/'+comment.user_id" class="text-dark-h">{{user.username}}</a>
+          <small class="mx-3" style="color:#606060">{{updateCommentDate()}}</small>
         </div>
-        <div style="margin-bottom: -15px;">
-          <div v-if="comment.status == 1" v-html="comment.content"></div>
-          <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
-        </div>
+        <div v-if="comment.status == 1" v-html="comment.content" class="comment-content mt-1"></div>
+        <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
         <div>
-          <small class="text-muted">{{updateCommentDate()}}</small>
-          <span class="mx-2">
+          <span>
             <i
               v-if="likeStatus"
               class="fa fa-thumbs-up comment-like"
@@ -29,7 +38,7 @@
             <i v-else class="fa fa-thumbs-o-up comment-like" v-on:click="iLike"></i>
             <span class="likeCount">{{likeTotal}}</span>
           </span>
-          <span class="mx-2">
+          <span class="mx-3">
             <i
               v-if="unlikeStatus"
               class="fa fa-thumbs-down comment-unlike"
@@ -39,7 +48,7 @@
             <i v-else class="fa fa-thumbs-o-down comment-unlike" v-on:click="iUnlike"></i>
             <span class="unlikeCount">{{unlikeTotal}}</span>
           </span>
-          <span class="comment-reply btn btn-white btn-sm" v-on:click="commentEnterEvent">Comment</span>
+          <span class="comment-reply mx-4" v-on:click="commentEnterEvent">REPLY</span>
           <div class="float-right mr-5" v-if="comment.status == 1">
             <el-col :span="12">
               <el-dropdown trigger="click">
@@ -74,14 +83,13 @@
             v-on:reply-content="replyContentEvnet"
             v-on:login-event="handleLogin"
           ></Reply>
-          <div v-if="fold && replys.total>3 && pageSize==3">
-            共{{replys.total}}条回复，
+          <div v-if="fold && replys.total>3 && pageSize==3" class="my-2">
             <span
               v-on:click="handleCurrentChange(1)"
-              class="btn btn-primary btn-sm"
-            >点击查看</span>
+              class="moreReply"
+            >View {{replys.total}} replies</span>
           </div>
-          <div class="block" v-if="pageSize==10 &&  replys.total>pageSize">
+          <div class="block my-2" v-if="pageSize==10 &&  replys.total>pageSize">
             <el-pagination
               small
               background
@@ -349,5 +357,29 @@ export default {
 .commentMedia .comment-operate {
   display: none;
 }
+.moreReply {
+  color: #0a0a0a;
+  cursor: pointer;
+}
+a.text-dark-h {
+  cursor: pointer;
+  color: #0a0a0a;
+}
+a.text-dark-h:hover {
+  color: #0a0a0a;
+  text-decoration: none;
+}
+.comment-avatar {
+  margin-left: -13px;
+  margin-top: -20px;
+  width: 53px;
+  -webkit-transform: scale(0.53);
+  -moz-transform: scale(0.53);
+  -ms-transform: scale(0.53);
+  -o-transform: scale(0.53);
+  transform: scale(0.53);
+  display: inline-block;
+}
 </style>
+
 

@@ -1,26 +1,33 @@
 <template>
   <li class="media replyMedia mt-2" v-bind:id="reply.comment_id" v-if="reply.status==1">
-    <div
+    <a
+      :href="'/user/book/'+user.id"
       class="media-object avatar mr-4"
-      v-bind:style="'background-image: url('+ (user.profile.avatar ? '//online2.html5zilla.com/'+ user.profile.avatar :'/statics/image/4.jpg')+')'"
-    ></div>
+      v-bind:style="'background-image: url('+ $s3UrlHead + user.profile.avatar + ')'"
+      v-if="user.profile.avatar"
+    ></a>
+    <a :href="'/user/book/'+user.id" v-html="user.profile.avatar_svg" v-else class="reply-avatar"></a>
+
     <div class="media-body">
-      <div class="d-md-flex">
+      <div>
         <div v-if="reply.user_id == reply.entry_id || reply.entry_id == comment.user_id">
-          <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a>
+          <a v-bind:href="'/user/book/'+reply.user_id" class="text-dark-h">{{user.username}}</a>
+          <small class="mx-3" style="color:#606060">{{ updateCommentDate()}}</small>
         </div>
         <div v-else>
-          <a v-bind:href="'/user/book/'+reply.user_id">{{user.username}}</a> 回复
-          <a v-bind:href="'/user/book/'+reply.entry_id">{{euser.username}}</a>
+          <div>
+            <a v-bind:href="'/user/book/'+reply.user_id" class="text-dark-h">{{user.username}}</a>
+            <small class="mx-3" style="color:#606060">{{ updateCommentDate()}}</small>
+          </div>
+          <div>
+            <a v-bind:href="'/user/book/'+reply.entry_id" class="text-dark-r">@{{euser.username}}</a>
+          </div>
         </div>
-        <div class="mx-3" style="margin-bottom: -15px;">
-          <div v-if="reply.status == 1" v-html="reply.content"></div>
-          <div v-else-if="reply.status == 2" v-html="reply.reason" class="text-muted"></div>
-        </div>
+        <div v-if="reply.status == 1" v-html="reply.content" class="comment-content mt-1"></div>
+        <div v-else-if="reply.status == 2" v-html="reply.reason" class="text-muted"></div>
       </div>
       <div>
-        <small class="text-muted">{{ updateCommentDate()}}</small>
-        <span class="comment-reply btn btn-white btn-sm mx-3" v-on:click="ReplyEenterEvent">Comment</span>
+        <span class="comment-reply" v-on:click="ReplyEenterEvent">REPLY</span>
         <div class="float-right mr-5" v-if="reply.status == 1">
           <el-col :span="12">
             <el-dropdown trigger="click">
@@ -145,7 +152,9 @@ export default {
       }
     },
     updateCommentDate() {
-      return this.$moment(parseInt(this.comment.created_at+'000')).format('YYYY-MM-DD HH:mm');
+      return this.$moment(parseInt(this.comment.created_at + "000")).format(
+        "YYYY-MM-DD HH:mm"
+      );
     }
   }
 };
@@ -158,5 +167,32 @@ export default {
 .replyMedia .reply-operate {
   display: none;
 }
-</style>
+.comment-reply {
+  color: #606060;
+  cursor: pointer;
+}
+.comment-content {
+  color: #111111;
+}
 
+a.text-dark-r {
+  cursor: pointer;
+  color: #065fd4;
+}
+a.text-dark-r:hover {
+  color: #065fd4;
+  text-decoration: none;
+}
+
+.reply-avatar {
+  margin-left: -20px;
+  width: 68px;
+  margin-top: -25px;
+  -webkit-transform: scale(0.43);
+  -moz-transform: scale(0.43);
+  -ms-transform: scale(0.43);
+  -o-transform: scale(0.43);
+  transform: scale(0.43);
+  display: inline-block;
+}
+</style>

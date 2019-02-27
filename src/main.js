@@ -33,6 +33,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$identify = window.identify;//当前用户
 Vue.prototype.$entryId = window.entryId;//当前评论书本ID
 Vue.prototype.$loginStatus = window.loginStatus;//当前用户登陆状体
+Vue.prototype.$s3UrlHead = window.s3UrlHead;//s3头地址
 Vue.prototype.$moment = require('moment');//时间转化函数
 
 Vue.use(ElementUI);

@@ -2,7 +2,7 @@
   <div class="row">
     <div ref="editor" style="text-align:left" class="col-md-10"></div>
     <div class="col-md-2 align-self-end">
-      <span class="btn btn-success" v-on:click="getContent">Comment</span>
+      <span class="btn btn-info" v-on:click="getContent">REPLY</span>
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@ export default {
       //'undo',  // 撤销
       //'redo'  // 重复
     ]; /**/
+    this.editor.customConfig.zIndex = 500;
     this.editor.create();
   }
 };

@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container">
-    <ul class="list-group card-list-group">
+    <Editor v-on:editor-content="handleComment"></Editor>
+    <div class="list-group card-list-group">
       <Comment
         v-for="(comment,key,index) in comments.comment"
         v-bind:key="index"
@@ -11,7 +12,7 @@
         v-bind:currentReplyId="currentReplyId"
         v-on:login-event="loginDialogStatus=true"
       ></Comment>
-    </ul>
+    </div>
     <div v-if="comments.total > pageSize">
       <el-pagination
         background
@@ -21,7 +22,7 @@
       ></el-pagination>
     </div>
     <!----->
-    <Editor v-on:editor-content="handleComment"></Editor>
+    <Editor v-on:editor-content="handleComment" v-if="comments.total>10 && page==1"></Editor>
     <el-dialog
       title="login"
       :visible.sync="loginDialogStatus"
@@ -47,10 +48,10 @@ export default {
   name: "app",
   data: function() {
     return {
-      comments: Array,//当前评论列表
-      page: 1,//当前评论页面
-      pageSize: 10,//每页评论个数
-      currentReplyId: 0,//当前正被回复的评论ID
+      comments: Array, //当前评论列表
+      page: 1, //当前评论页面
+      pageSize: 15, //每页评论个数
+      currentReplyId: 0, //当前正被回复的评论ID
       loginStatus: false, //当前用户登陆状态
       loginDialogStatus: false //当前登陆对话框显示状态
     };
@@ -63,7 +64,8 @@ export default {
     this.commentList();
   },
   methods: {
-    commentList: function() {//获取评论列表
+    commentList: function() {
+      //获取评论列表
       this.$http
         .get(
           "/comment/c?id=" +
@@ -73,16 +75,16 @@ export default {
             "&pageSize=" +
             this.pageSize
         )
-        .then(
-          response => (this.comments = response.data)
-        );
+        .then(response => (this.comments = response.data));
     },
-    handleCurrentChange: function(e) {//页面评论切换事件
+    handleCurrentChange: function(e) {
+      //页面评论切换事件
       this.page = e;
       this.commentList();
     },
-    handleComment: function(e) {//发评论事件
-      if(this.$loginStatus == false){
+    handleComment: function(e) {
+      //发评论事件
+      if (this.$loginStatus == false) {
         this.loginDialogStatus = true;
         return;
       }
@@ -98,7 +100,8 @@ export default {
         }
       });
     },
-    replyEnterEvent: function(e) {//回复评论事件
+    replyEnterEvent: function(e) {
+      //回复评论事件
       this.currentReplyId = parseInt(e);
     }
   }
