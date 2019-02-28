@@ -66,8 +66,8 @@
         <el-radio v-model="reportRadio" label="Spam Or Misleading">Spam Or Misleading</el-radio>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="report">确 定</el-button>
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="report">Enter</el-button>
       </span>
     </el-dialog>
   </li>

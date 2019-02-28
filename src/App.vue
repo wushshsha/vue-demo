@@ -24,14 +24,14 @@
     <!----->
     <Editor v-on:editor-content="handleComment" v-if="comments.total>10 && page==1"></Editor>
     <el-dialog
-      title="login"
+      title="Login"
       :visible.sync="loginDialogStatus"
       :modal-append-to-body="false"
       width="30%"
       v-if="loginStatus == false"
     >
       <div>
-        <a href="/site/login">请登陆后再回复</a>
+        <a href="/site/login">You must be logged in to reply.</a>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="loginDialogStatus = false">Cancel</el-button>
