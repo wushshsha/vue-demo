@@ -332,7 +332,7 @@ export default {
           //一分钟内
           let second = parseInt(diff / 1000);
           if (second == 0 || second == 1) {
-            return "One second ago";
+            return "1 second ago";
           } else {
             return second + " seconds ago";
           }

@@ -134,16 +134,6 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "good",
-            src: "/statics/comment/normal/2018new_good_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "guolai_thumb.png",
-            src: "/statics/comment/normal/2018new_guolai_thumb.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "guzhang_thumb.png",
             src: "/statics/comment/normal/2018new_guzhang_thumb.png",
             class: "img-normal-class"
@@ -181,11 +171,6 @@ export default {
           {
             alt: "huaxin",
             src: "/statics/comment/normal/2018new_huaxin_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "jiayou",
-            src: "/statics/comment/normal/2018new_jiayou_org.png",
             class: "img-normal-class"
           },
           {
@@ -239,18 +224,8 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "no",
-            src: "/statics/comment/normal/2018new_no_org.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "nu_thumb.png",
             src: "/statics/comment/normal/2018new_nu_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "ok",
-            src: "/statics/comment/normal/2018new_ok_org.png",
             class: "img-normal-class"
           },
           {
@@ -261,11 +236,6 @@ export default {
           {
             alt: "qinqin_thumb.png",
             src: "/statics/comment/normal/2018new_qinqin_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "ruo",
-            src: "/statics/comment/normal/2018new_ruo_org.png",
             class: "img-normal-class"
           },
           {
@@ -334,11 +304,6 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "woshou_thumb.png",
-            src: "/statics/comment/normal/2018new_woshou_thumb.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "wu_thumb.png",
             src: "/statics/comment/normal/2018new_wu_thumb.png",
             class: "img-normal-class"
@@ -364,11 +329,6 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "ye_thumb.png",
-            src: "/statics/comment/normal/2018new_ye_thumb.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "yinxian",
             src: "/statics/comment/normal/2018new_yinxian_org.png",
             class: "img-normal-class"
@@ -381,11 +341,6 @@ export default {
           {
             alt: "yun_thumb.png",
             src: "/statics/comment/normal/2018new_yun_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "zan",
-            src: "/statics/comment/normal/2018new_zan_org.png",
             class: "img-normal-class"
           },
           {
@@ -407,7 +362,52 @@ export default {
             alt: "zuoyi",
             src: "/statics/comment/normal/2018new_zuoyi_org.png",
             class: "img-normal-class"
-          }
+          },
+          {
+            alt: "good",
+            src: "/statics/comment/normal/2018new_good_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "guolai_thumb.png",
+            src: "/statics/comment/normal/2018new_guolai_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "jiayou",
+            src: "/statics/comment/normal/2018new_jiayou_org.png",
+            class: "img-normal-class"
+          },
+                    {
+            alt: "no",
+            src: "/statics/comment/normal/2018new_no_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ok",
+            src: "/statics/comment/normal/2018new_ok_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ruo",
+            src: "/statics/comment/normal/2018new_ruo_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "woshou_thumb.png",
+            src: "/statics/comment/normal/2018new_woshou_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ye_thumb.png",
+            src: "/statics/comment/normal/2018new_ye_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "zan",
+            src: "/statics/comment/normal/2018new_zan_org.png",
+            class: "img-normal-class"
+          },
         ]
       }
     ];
