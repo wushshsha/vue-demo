@@ -110,7 +110,7 @@ export default {
           this.$set(
             this.reply,
             "reason",
-            "<p class='text-muted'>该评论已经被删除</p>"
+            "<p class='text-muted'>The comment has been deleted by the author.</p>"
           );
           this.$set(this.reply, "status", 2);
         }
