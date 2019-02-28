@@ -97,13 +97,15 @@ export default {
           let comment = response.data.data;
           this.$set(this.comments.user, "" + comment.user.id, comment.user);
           this.comments.comment.push(comment.comment);
+        } else {
+          this.$message.error(response.data.data);
         }
       });
     },
     replyEnterEvent: function(e) {
       //回复评论事件
       this.currentReplyId = parseInt(e);
-    }
+    },
   }
 };
 </script>

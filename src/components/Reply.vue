@@ -152,9 +152,50 @@ export default {
       }
     },
     updateCommentDate() {
-      return this.$moment(parseInt(this.comment.created_at + "000")).format(
-        "YYYY-MM-DD HH:mm"
-      );
+      let commentTime = parseInt(this.comment.created_at + "000");
+      let currentTime = new Date().getTime();
+      if (currentTime - commentTime > 0) {
+        let diff = currentTime - commentTime;
+        if (diff < 60 * 1000) {
+          //一分钟内
+          let second = parseInt(diff / 1000);
+          if (second == 0 || second == 1) {
+            return "One second ago";
+          } else {
+            return second + " seconds ago";
+          }
+        } else if (diff < 3600 * 1000) {
+          //一小时内
+          let minute = parseInt(diff / 60 / 1000);
+          if (minute == 0 || minute == 1) {
+            return "1 minute ago";
+          } else {
+            return minute + " minutes ago";
+          }
+        } else if (diff < 3600 * 24 * 1000) {
+          //一天内
+          let hour = parseInt(diff / 3600 / 1000);
+          if (hour == 0 || hour == 1) {
+            return "1 hour ago";
+          } else {
+            return hour + " hours ago";
+          }
+        } else if (diff < 3600 * 24 * 7 * 1000) {
+          //一周内
+          let day = parseInt(diff / (3600 * 24) / 1000);
+          if (day == 0 || day == 1) {
+            return "1 day ago";
+          } else {
+            return day + " days ago";
+          }
+        } else {
+          return this.$moment(parseInt(this.comment.created_at + "000")).format(
+            "YYYY-MM-DD HH:mm"
+          );
+        }
+      } else {
+        return "One second ago";
+      }
     }
   }
 };
