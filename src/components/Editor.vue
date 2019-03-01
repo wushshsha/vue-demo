@@ -426,7 +426,7 @@ export default {
 .w-e-text-container {
   height: 65px !important;
 }
-.w-e-text p{
+div.w-e-text p{
   margin: 0;
 }
 img.img-normal-class {

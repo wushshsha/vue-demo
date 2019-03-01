@@ -88,7 +88,7 @@
             <span
               v-on:click="handleCurrentChange(1)"
               class="moreReply"
-            >View {{replys.total}} replies</span>
+            >View {{replys.total}} replies <i class="fa fa-angle-down"></i></span>
           </div>
           <div class="block my-2" v-if="pageSize==10 &&  replys.total>pageSize">
             <el-pagination
@@ -406,6 +406,7 @@ export default {
 .moreReply {
   color: #0a0a0a;
   cursor: pointer;
+  font-weight: 600;
 }
 a.text-dark-h {
   cursor: pointer;
