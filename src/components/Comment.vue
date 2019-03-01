@@ -16,7 +16,7 @@
           :href="'/user/book/'+user.id"
           v-html="user.profile.avatar_svg"
           v-else
-          class="comment-avatar"
+          class="media-object avatar avatar-md"
         ></a>
       </div>
 
@@ -36,7 +36,7 @@
               v-on:click="iLike"
             ></i>
             <i v-else class="fa fa-thumbs-o-up comment-like" v-on:click="iLike"></i>
-            <span class="likeCount">{{likeTotal}}</span>
+            <span class="likeCount mx-2">{{likeTotal > 0 ? likeTotal : ''}}</span>
           </span>
           <span class="mx-3">
             <i
@@ -46,7 +46,7 @@
               v-on:click="iUnlike"
             ></i>
             <i v-else class="fa fa-thumbs-o-down comment-unlike" v-on:click="iUnlike"></i>
-            <span class="unlikeCount">{{unlikeTotal}}</span>
+            <span class="unlikeCount mx-2">{{unlikeTotal > 0 ? unlikeTotal : ''}}</span>
           </span>
           <span class="comment-reply mx-4" v-on:click="commentEnterEvent">REPLY</span>
           <div class="float-right mr-5" v-if="comment.status == 1">
@@ -415,17 +415,7 @@ a.text-dark-h:hover {
   color: #0a0a0a;
   text-decoration: none;
 }
-.comment-avatar {
-  margin-left: -13px;
-  margin-top: -20px;
-  width: 53px;
-  -webkit-transform: scale(0.53);
-  -moz-transform: scale(0.53);
-  -ms-transform: scale(0.53);
-  -o-transform: scale(0.53);
-  transform: scale(0.53);
-  display: inline-block;
-}
+
 </style>
 
 

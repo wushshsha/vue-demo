@@ -6,7 +6,7 @@
       v-bind:style="'background-image: url('+ $s3UrlHead + user.profile.avatar + ')'"
       v-if="user.profile.avatar"
     ></a>
-    <a :href="'/user/book/'+user.id" v-html="user.profile.avatar_svg" v-else class="reply-avatar"></a>
+    <a :href="'/user/book/'+user.id" v-html="user.profile.avatar_svg" v-else class="media-object avatar mr-4"></a>
 
     <div class="media-body">
       <div>
@@ -224,17 +224,5 @@ a.text-dark-r {
 a.text-dark-r:hover {
   color: #065fd4;
   text-decoration: none;
-}
-
-.reply-avatar {
-  margin-left: -20px;
-  width: 68px;
-  margin-top: -25px;
-  -webkit-transform: scale(0.43);
-  -moz-transform: scale(0.43);
-  -ms-transform: scale(0.43);
-  -o-transform: scale(0.43);
-  transform: scale(0.43);
-  display: inline-block;
 }
 </style>
