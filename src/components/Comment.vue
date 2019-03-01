@@ -1,10 +1,10 @@
 <template>
   <div
-    class="my-2"
+    class="my-2 "
     v-bind:id="comment.comment_id"
     v-if="comment.status == 1 || (comment.status != 1 && replys.reply && replys.reply.length > 0)"
   >
-    <div class="media commentMedia">
+    <div class="media commentMedia ">
       <div class="mr-5 text-center">
         <a
           :href="'/user/book/'+user.id"
@@ -415,7 +415,9 @@ a.text-dark-h:hover {
   color: #0a0a0a;
   text-decoration: none;
 }
-
+.comment-content p{
+  margin: 0;
+}
 </style>
 
 

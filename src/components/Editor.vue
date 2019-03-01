@@ -18,8 +18,8 @@ export default {
       editor: Object
     };
   },
-  props:{
-    buttonTxt: String,
+  props: {
+    buttonTxt: String
   },
   methods: {
     getContent: function() {
@@ -72,8 +72,118 @@ export default {
         // content -> 数组
         content: [
           {
-            alt: "aini",
-            src: "/statics/comment/normal/2018new_aini_org.png",
+            alt: "weixioa02",
+            src: "/statics/comment/normal/2018new_weixioa02_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "huaxin",
+            src: "/statics/comment/normal/2018new_huaxin_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ku",
+            src: "/statics/comment/normal/2018new_ku_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "leimu",
+            src: "/statics/comment/normal/2018new_leimu_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "haixiu",
+            src: "/statics/comment/normal/2018new_haixiu_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "bizui",
+            src: "/statics/comment/normal/2018new_bizui_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "shuijiao_thumb.png",
+            src: "/statics/comment/normal/2018new_shuijiao_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "nu_thumb.png",
+            src: "/statics/comment/normal/2018new_nu_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "xixi_thumb.png",
+            src: "/statics/comment/normal/2018new_xixi_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "chijing",
+            src: "/statics/comment/normal/2018new_chijing_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "heng_thumb.png",
+            src: "/statics/comment/normal/2018new_heng_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "tu",
+            src: "/statics/comment/normal/2018new_tu_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "touxiao",
+            src: "/statics/comment/normal/2018new_touxiao_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "keai",
+            src: "/statics/comment/normal/2018new_keai_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "landelini",
+            src: "/statics/comment/normal/2018new_landelini_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "kun_thumb.png",
+            src: "/statics/comment/normal/2018new_kun_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "haha_thumb.png",
+            src: "/statics/comment/normal/2018new_haha_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "zhouma_thumb.png",
+            src: "/statics/comment/normal/2018new_zhouma_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ningwen",
+            src: "/statics/comment/normal/2018new_ningwen_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "xu",
+            src: "/statics/comment/normal/2018new_xu_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "yun_thumb.png",
+            src: "/statics/comment/normal/2018new_yun_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "shuai_thumb.png",
+            src: "/statics/comment/normal/2018new_shuai_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "ding",
+            src: "/statics/comment/normal/2018new_ding_org.png",
             class: "img-normal-class"
           },
           {
@@ -82,13 +192,38 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "beishang",
-            src: "/statics/comment/normal/2018new_beishang_org.png",
+            alt: "han",
+            src: "/statics/comment/normal/2018new_han_org.png",
             class: "img-normal-class"
           },
           {
-            alt: "bingbujiandan_thumb.png",
-            src: "/statics/comment/normal/2018new_bingbujiandan_thumb.png",
+            alt: "wabi_thumb.png",
+            src: "/statics/comment/normal/2018new_wabi_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "guzhang_thumb.png",
+            src: "/statics/comment/normal/2018new_guzhang_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "huaixiao",
+            src: "/statics/comment/normal/2018new_huaixiao_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "zuohengheng_thumb.png",
+            src: "/statics/comment/normal/2018new_zuohengheng_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "youhengheng_thumb.png",
+            src: "/statics/comment/normal/2018new_youhengheng_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "dahaqian",
+            src: "/statics/comment/normal/2018new_dahaqian_org.png",
             class: "img-normal-class"
           },
           {
@@ -97,8 +232,54 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "bizui",
-            src: "/statics/comment/normal/2018new_bizui_org.png",
+            alt: "weiqu_thumb.png",
+            src: "/statics/comment/normal/2018new_weiqu_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "beishang",
+            src: "/statics/comment/normal/2018new_beishang_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "yinxian",
+            src: "/statics/comment/normal/2018new_yinxian_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "qinqin_thumb.png",
+            src: "/statics/comment/normal/2018new_qinqin_thumb.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "kelian",
+            src: "/statics/comment/normal/2018new_kelian_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "kuxiao",
+            src: "/statics/comment/normal/2018new_kuxiao_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "jiyan",
+            src: "/statics/comment/normal/2018new_jiyan_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "xiaoku_thumb.png",
+            src: "/statics/comment/normal/2018new_xiaoku_thumb.png",
+            class: "img-normal-class"
+          },
+
+          {
+            alt: "aini",
+            src: "/statics/comment/normal/2018new_aini_org.png",
+            class: "img-normal-class"
+          },
+          {
+            alt: "bingbujiandan_thumb.png",
+            src: "/statics/comment/normal/2018new_bingbujiandan_thumb.png",
             class: "img-normal-class"
           },
           {
@@ -112,18 +293,8 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "chijing",
-            src: "/statics/comment/normal/2018new_chijing_org.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "chongjing",
             src: "/statics/comment/normal/2018new_chongjing_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "dahaqian",
-            src: "/statics/comment/normal/2018new_dahaqian_org.png",
             class: "img-normal-class"
           },
           {
@@ -132,63 +303,8 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "ding",
-            src: "/statics/comment/normal/2018new_ding_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "guzhang_thumb.png",
-            src: "/statics/comment/normal/2018new_guzhang_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "haha_thumb.png",
-            src: "/statics/comment/normal/2018new_haha_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "haixiu",
-            src: "/statics/comment/normal/2018new_haixiu_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "han",
-            src: "/statics/comment/normal/2018new_han_org.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "heixian_thumb.png",
             src: "/statics/comment/normal/2018new_heixian_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "heng_thumb.png",
-            src: "/statics/comment/normal/2018new_heng_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "huaixiao",
-            src: "/statics/comment/normal/2018new_huaixiao_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "huaxin",
-            src: "/statics/comment/normal/2018new_huaxin_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "jiyan",
-            src: "/statics/comment/normal/2018new_jiyan_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "keai",
-            src: "/statics/comment/normal/2018new_keai_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "kelian",
-            src: "/statics/comment/normal/2018new_kelian_org.png",
             class: "img-normal-class"
           },
           {
@@ -197,48 +313,8 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "ku",
-            src: "/statics/comment/normal/2018new_ku_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "kun_thumb.png",
-            src: "/statics/comment/normal/2018new_kun_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "kuxiao",
-            src: "/statics/comment/normal/2018new_kuxiao_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "landelini",
-            src: "/statics/comment/normal/2018new_landelini_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "leimu",
-            src: "/statics/comment/normal/2018new_leimu_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "ningwen",
-            src: "/statics/comment/normal/2018new_ningwen_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "nu_thumb.png",
-            src: "/statics/comment/normal/2018new_nu_thumb.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "qian_thumb.png",
             src: "/statics/comment/normal/2018new_qian_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "qinqin_thumb.png",
-            src: "/statics/comment/normal/2018new_qinqin_thumb.png",
             class: "img-normal-class"
           },
           {
@@ -249,16 +325,6 @@ export default {
           {
             alt: "shengbing_thumb.png",
             src: "/statics/comment/normal/2018new_shengbing_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "shuai_thumb.png",
-            src: "/statics/comment/normal/2018new_shuai_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "shuijiao_thumb.png",
-            src: "/statics/comment/normal/2018new_shuijiao_thumb.png",
             class: "img-normal-class"
           },
           {
@@ -277,31 +343,6 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "touxiao",
-            src: "/statics/comment/normal/2018new_touxiao_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "tu",
-            src: "/statics/comment/normal/2018new_tu_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "wabi_thumb.png",
-            src: "/statics/comment/normal/2018new_wabi_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "weiqu_thumb.png",
-            src: "/statics/comment/normal/2018new_weiqu_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "weixioa02",
-            src: "/statics/comment/normal/2018new_weixioa02_org.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "wenhao_thumb.png",
             src: "/statics/comment/normal/2018new_wenhao_thumb.png",
             class: "img-normal-class"
@@ -317,48 +358,8 @@ export default {
             class: "img-normal-class"
           },
           {
-            alt: "xiaoku_thumb.png",
-            src: "/statics/comment/normal/2018new_xiaoku_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "xixi_thumb.png",
-            src: "/statics/comment/normal/2018new_xixi_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "xu",
-            src: "/statics/comment/normal/2018new_xu_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "yinxian",
-            src: "/statics/comment/normal/2018new_yinxian_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "youhengheng_thumb.png",
-            src: "/statics/comment/normal/2018new_youhengheng_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "yun_thumb.png",
-            src: "/statics/comment/normal/2018new_yun_thumb.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "zhouma_thumb.png",
-            src: "/statics/comment/normal/2018new_zhouma_thumb.png",
-            class: "img-normal-class"
-          },
-          {
             alt: "zhuakuang",
             src: "/statics/comment/normal/2018new_zhuakuang_org.png",
-            class: "img-normal-class"
-          },
-          {
-            alt: "zuohengheng_thumb.png",
-            src: "/statics/comment/normal/2018new_zuohengheng_thumb.png",
             class: "img-normal-class"
           },
           {
@@ -381,7 +382,7 @@ export default {
             src: "/statics/comment/normal/2018new_jiayou_org.png",
             class: "img-normal-class"
           },
-                    {
+          {
             alt: "no",
             src: "/statics/comment/normal/2018new_no_org.png",
             class: "img-normal-class"
@@ -410,7 +411,7 @@ export default {
             alt: "zan",
             src: "/statics/comment/normal/2018new_zan_org.png",
             class: "img-normal-class"
-          },
+          }
         ]
       }
     ];
@@ -423,7 +424,10 @@ export default {
 
 <style>
 .w-e-text-container {
-  height: 50px !important;
+  height: 65px !important;
+}
+.w-e-text p{
+  margin: 0;
 }
 img.img-normal-class {
   width: 22px;
