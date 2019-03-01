@@ -68,6 +68,7 @@
           <editor
             v-if="currentReplyId==this.comment.comment_id"
             v-on:editor-content="handleComment"
+            v-bind:buttonTxt="'REPLY'"
           ></editor>
         </div>
         <ul class="list-group replyLayout card-list-group comment-reply-list">

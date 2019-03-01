@@ -47,6 +47,7 @@
         <Editor
           v-if="currentReplyId==this.reply.comment_id"
           v-on:editor-content="handleEditorContent"
+          v-bind:buttonTxt="'REPLY'"
         ></Editor>
       </div>
     </div>
@@ -152,7 +153,7 @@ export default {
       }
     },
     updateCommentDate() {
-      let commentTime = parseInt(this.comment.created_at + "000");
+      let commentTime = parseInt(this.reply.created_at + "000");
       let currentTime = new Date().getTime();
       if (currentTime - commentTime > 0) {
         let diff = currentTime - commentTime;

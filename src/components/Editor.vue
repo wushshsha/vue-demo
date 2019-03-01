@@ -2,7 +2,7 @@
   <div class="row">
     <div ref="editor" style="text-align:left" class="col-md-10"></div>
     <div class="col-md-2 align-self-end">
-      <span class="btn btn-info" v-on:click="getContent">REPLY</span>
+      <span class="btn btn-info" v-on:click="getContent">{{buttonTxt}}</span>
     </div>
   </div>
 </template>
@@ -17,6 +17,9 @@ export default {
       editorContent: "",
       editor: Object
     };
+  },
+  props:{
+    buttonTxt: String,
   },
   methods: {
     getContent: function() {

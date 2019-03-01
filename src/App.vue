@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <Editor v-on:editor-content="handleComment"></Editor>
+    <Editor v-on:editor-content="handleComment" v-bind:buttonTxt="'COMMENT'"></Editor>
     <div class="list-group card-list-group">
       <Comment
         v-for="(comment,key,index) in comments.comment"
@@ -22,7 +22,7 @@
       ></el-pagination>
     </div>
     <!----->
-    <Editor v-on:editor-content="handleComment" v-if="comments.total>6 && page==1"></Editor>
+    <Editor v-on:editor-content="handleComment" v-if="comments.total>6 && page==1" v-bind:buttonTxt="'COMMENT'"></Editor>
     <el-dialog
       title="Login"
       :visible.sync="loginDialogStatus"
@@ -96,7 +96,7 @@ export default {
         if (response.data.success) {
           let comment = response.data.data;
           this.$set(this.comments.user, "" + comment.user.id, comment.user);
-          this.comments.comment.push(comment.comment);
+          this.comments.comment.unshift(comment.comment);
         } else {
           this.$message.error(response.data.data);
         }
