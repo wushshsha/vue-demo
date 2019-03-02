@@ -6,7 +6,12 @@
       v-bind:style="'background-image: url('+ $s3UrlHead + user.profile.avatar + ')'"
       v-if="user.profile.avatar"
     ></a>
-    <a :href="'/user/book/'+user.id" v-html="user.profile.avatar_svg" v-else class="media-object avatar mr-4"></a>
+    <a
+      :href="'/user/book/'+user.id"
+      v-html="user.profile.avatar_svg"
+      v-else
+      class="media-object avatar mr-4"
+    ></a>
 
     <div class="media-body">
       <div>
@@ -45,7 +50,7 @@
           </el-col>
         </div>
         <Editor
-          v-if="currentReplyId==this.reply.comment_id"
+          v-if="currentReplyId==this.reply.comment_id && replyShow"
           v-on:editor-content="handleEditorContent"
           v-bind:buttonTxt="'REPLY'"
         ></Editor>
@@ -64,6 +69,8 @@
           v-model="reportRadio"
           label="Violent And Repulsive Content"
         >Violent And Repulsive Content</el-radio>
+        <el-radio v-model="reportRadio" label="Break the Rules">Break the Rules</el-radio>
+        <el-radio v-model="reportRadio" label="Personal attacks">Personal attacks</el-radio>
         <el-radio v-model="reportRadio" label="Spam Or Misleading">Spam Or Misleading</el-radio>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -85,7 +92,8 @@ export default {
       dialogVisible: false, //举报对话框打开状体
       reportRadio: String, //举报项
       loginStatus: false, //当前用户登陆状态
-      loginDialogStatus: false //当前登陆对话框显示状态
+      loginDialogStatus: false, //当前登陆对话框显示状态
+      replyShow: false //回复窗口是否展示
     };
   },
   props: {
@@ -134,11 +142,16 @@ export default {
     },
     ReplyEenterEvent: function() {
       //回复按钮被点击事件
+      this.replyShow = !this.replyShow;
       if (!this.$loginStatus) this.$emit("login-event");
-      else this.$emit("reply-event", this.reply.comment_id);
+      else {
+        if (this.currentReplyId != this.reply.comment_id) this.replyShow = true;
+        this.$emit("reply-event", this.reply.comment_id);
+      }
     },
     handleEditorContent: function(e) {
       //回复内容被提交事件
+      this.replyShow = false;
       this.$emit("reply-content", {
         parent_id: this.comment.comment_id,
         entry_id: this.reply.user_id,

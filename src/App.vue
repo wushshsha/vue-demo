@@ -22,7 +22,7 @@
       ></el-pagination>
     </div>
     <!----->
-    <Editor v-on:editor-content="handleComment" v-if="comments.comment.length>6" v-bind:buttonTxt="'COMMENT'"></Editor>
+    <Editor v-on:editor-content="handleComment" v-if="comments && comments.comment && comments.comment.length>6" v-bind:buttonTxt="'COMMENT'"></Editor>
     <el-dialog
       title="Login"
       :visible.sync="loginDialogStatus"

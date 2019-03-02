@@ -1,10 +1,10 @@
 <template>
   <div
-    class="my-2 "
+    class="my-2"
     v-bind:id="comment.comment_id"
     v-if="comment.status == 1 || (comment.status != 1 && replys.reply && replys.reply.length > 0)"
   >
-    <div class="media commentMedia ">
+    <div class="media commentMedia">
       <div class="mr-5 text-center">
         <a
           :href="'/user/book/'+user.id"
@@ -18,6 +18,7 @@
           v-else
           class="media-object avatar avatar-md"
         ></a>
+        <div class="user-reputation" v-if="user.totalScore>0">{{user.totalScore}}</div>
       </div>
 
       <div class="media-body">
@@ -27,7 +28,7 @@
         </div>
         <div v-if="comment.status == 1" v-html="comment.content" class="comment-content mt-1"></div>
         <div v-else-if="comment.status == 2" v-html="comment.reason" class="text-muted"></div>
-        <div>
+        <div class="mt-1">
           <span>
             <i
               v-if="likeStatus"
@@ -66,7 +67,7 @@
             </el-col>
           </div>
           <editor
-            v-if="currentReplyId==this.comment.comment_id"
+            v-if="currentReplyId==this.comment.comment_id && replyShow"
             v-on:editor-content="handleComment"
             v-bind:buttonTxt="'REPLY'"
           ></editor>
@@ -85,10 +86,10 @@
             v-on:login-event="handleLogin"
           ></Reply>
           <div v-if="fold && replys.total>3 && pageSize==3" class="my-2">
-            <span
-              v-on:click="handleCurrentChange(1)"
-              class="moreReply"
-            >View {{replys.total}} replies <i class="fa fa-angle-down"></i></span>
+            <span v-on:click="handleCurrentChange(1)" class="moreReply">
+              View {{replys.total}} replies
+              <i class="fa fa-chevron-down"></i>
+            </span>
           </div>
           <div class="block my-2" v-if="pageSize==10 &&  replys.total>pageSize">
             <el-pagination
@@ -104,7 +105,7 @@
       </div>
     </div>
     <el-dialog
-      title="report"
+      title="Report"
       :visible.sync="dialogVisible"
       :modal-append-to-body="false"
       width="30%"
@@ -115,6 +116,8 @@
           v-model="reportRadio"
           label="Violent And Repulsive Content"
         >Violent And Repulsive Content</el-radio>
+        <el-radio v-model="reportRadio" label="Break the Rules">Break the Rules</el-radio>
+        <el-radio v-model="reportRadio" label="Personal attacks">Personal attacks</el-radio>
         <el-radio v-model="reportRadio" label="Spam Or Misleading">Spam Or Misleading</el-radio>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -141,7 +144,8 @@ export default {
       likeStatus: false, //当前用户对该评论对like状态
       unlikeStatus: false, //当前用户对该评论的unlike状体啊
       likeTotal: 0, //当前评判被like的数量
-      unlikeTotal: 0 //当前评论被unlike的数量
+      unlikeTotal: 0, //当前评论被unlike的数量
+      replyShow: false //当前评论窗口是否显示
     };
   },
   props: {
@@ -284,6 +288,7 @@ export default {
           let reply = response.data.data;
           this.$set(this.replys.user, "" + reply.user.id, reply.user);
           this.replys.reply.push(reply.reply);
+          this.replyShow = false;
         } else {
           this.$message.error(response.data.data);
         }
@@ -295,8 +300,13 @@ export default {
     },
     commentEnterEvent: function() {
       //回复评论按钮被点击触发事件
+      this.replyShow = !this.replyShow;
       if (!this.$loginStatus) this.$emit("login-event");
-      else this.$emit("reply-event", this.comment.comment_id);
+      else {
+        if (this.currentReplyId != this.comment.comment_id)
+          this.replyShow = true;
+        this.$emit("reply-event", this.comment.comment_id);
+      }
     },
     replyContentEvnet: function(e) {
       //子级回复评论事件
@@ -410,14 +420,21 @@ export default {
 }
 a.text-dark-h {
   cursor: pointer;
-  color: #0a0a0a;
+  color: black;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 a.text-dark-h:hover {
   color: #0a0a0a;
   text-decoration: none;
 }
-.comment-content p{
+.comment-content p {
   margin: 0;
+}
+.user-reputation {
+  color: #a9ab2f;
+  font-weight: 600;
 }
 </style>
 
